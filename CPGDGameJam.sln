@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31727.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CPGDGameJam.Core", "CPGDGameJam\CPGDGameJam.Core.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPGDGameJam.DesktopGL", "CPGDGameJam.DesktopGL\CPGDGameJam.DesktopGL.csproj", "{393FA9D6-3687-477F-952A-485F9D47D535}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CPGDGameJam\CPGDGameJam.projitems*{393fa9d6-3687-477f-952a-485f9d47d535}*SharedItemsImports = 5
+		CPGDGameJam\CPGDGameJam.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{393FA9D6-3687-477F-952A-485F9D47D535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{393FA9D6-3687-477F-952A-485F9D47D535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{393FA9D6-3687-477F-952A-485F9D47D535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{393FA9D6-3687-477F-952A-485F9D47D535}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {654AE5E4-B0FD-42C0-AE30-419F4B60E6E5}
+	EndGlobalSection
+EndGlobal
