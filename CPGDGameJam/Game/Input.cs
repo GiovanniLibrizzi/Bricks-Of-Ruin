@@ -17,7 +17,7 @@ namespace CPGDGameJam.Game {
         public static Btn Left = new Btn(Keys.A, Keys.Left, Buttons.LeftThumbstickLeft, Buttons.DPadLeft);
         public static Btn Right = new Btn(Keys.D, Keys.Right, Buttons.LeftThumbstickRight, Buttons.DPadRight);
         public static Btn Jump = new Btn(Keys.K, Keys.Space, Buttons.A);
-
+        public static Btn ModeSwap = new Btn(Keys.M);
 
         static KeyboardState currentKeyState;
         static KeyboardState previousKeyState;
@@ -25,9 +25,9 @@ namespace CPGDGameJam.Game {
         static GamePadState currentButtonState;
         static GamePadState previousButtonState;
 
-        public static MouseState mouseState;
-        public static MouseState oldMouseState;
-        public static MouseState newMouseState;
+        public static MouseState currentMouseState;
+        public static MouseState previousMouseState;
+
         public Vector2 mPos;
         public int mx;
         public int my;
@@ -48,6 +48,9 @@ namespace CPGDGameJam.Game {
 
             previousButtonState = currentButtonState;
             currentButtonState = GamePad.GetState(PlayerIndex.One);
+
+            previousMouseState = currentMouseState;
+            currentMouseState = Mouse.GetState();
 
             previousTouchState = currentTouchState;
             currentTouchState = AnyTouch();
@@ -82,9 +85,11 @@ namespace CPGDGameJam.Game {
 
         public static bool keyPressed(Btn btn) {
             //bool down = false;
+            if (btn.keys != null) 
             foreach (Keys key in btn.keys) {
                 if (keyPressed(key)) return true;
             }
+            if (btn.buttons != null)
             foreach (Buttons button in btn.buttons) {
                 if (keyPressed(button)) return true;
             }
@@ -118,13 +123,34 @@ namespace CPGDGameJam.Game {
             return previousButtonState.IsButtonDown(button) && !currentButtonState.IsButtonDown(button);
         }
 
-
-        public static MouseState GetMouseState() {
-            mouseState = Mouse.GetState();
-            newMouseState = Mouse.GetState();
-            //mx = curMouseState.X;
-            return mouseState;
+        public static Vector2Int getMousePos() {
+            return new Vector2Int(currentMouseState.X, currentMouseState.Y);
         }
+
+        public static Vector2Int getMousePosScreen() {
+            Vector2Int mousePos;
+            mousePos.x = Input.getMousePos().x / (Game1.ScreenWidth / Game1.SCREEN_WIDTH);
+            mousePos.y = Input.getMousePos().y / (Game1.ScreenHeight / Game1.SCREEN_HEIGHT);
+            return mousePos;
+        }
+
+        public static Vector2 getMouseTile(Vector2 cameraPos) {
+            Vector2Int mousePos = getMousePosScreen();
+            float mX = mousePos.x + (cameraPos.X);
+            mX -= mX % Game1.GridSize;
+            float mY = mousePos.y + (cameraPos.Y);
+            mY -= mY % Game1.GridSize;
+            return new Vector2(mX, mY);
+        }
+
+
+
+        //public static MouseState GetMouseState() {
+        //    //mouseState = Mouse.GetState();
+        //    //newMouseState = Mouse.GetState();
+        //    ////mx = curMouseState.X;
+        //    //return mouseState;
+        //}
 
         public static TouchCollection GetTouchState() {
             //previousTouchState = currentTouchState;
@@ -140,16 +166,16 @@ namespace CPGDGameJam.Game {
         // 0 = left, 1 = right (maybe make enum)
         public static bool Click(int a) {
             switch (a) {
-                case 0: return newMouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released;
-                case 1: return newMouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released;
+                case 0: return currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released;
+                case 1: return currentMouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Released;
             }
             return false;
         }
 
         public static bool MouseHold(int a) {
             switch (a) {
-                case 0: return newMouseState.LeftButton == ButtonState.Pressed;
-                case 1: return newMouseState.RightButton == ButtonState.Pressed;
+                case 0: return currentMouseState.LeftButton == ButtonState.Pressed;
+                case 1: return currentMouseState.RightButton == ButtonState.Pressed;
             }
             return false;
         }
@@ -183,6 +209,11 @@ namespace CPGDGameJam.Game {
             public Btn(Keys key1, Keys key2, Buttons button1) {
                 keys = new List<Keys>() { key1, key2 };
                 buttons = new List<Buttons>() { button1 };
+            }
+            
+            public Btn(Keys key1) {
+                keys = new List<Keys>() { key1 };
+                buttons = null;
             }
 
         }

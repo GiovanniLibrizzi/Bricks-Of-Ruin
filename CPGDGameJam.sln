@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CPGDGameJam.Core", "CPGDGameJam\CPGDGameJam.Core.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPGDGameJam.DesktopGL", "CPGDGameJam.DesktopGL\CPGDGameJam.DesktopGL.csproj", "{393FA9D6-3687-477F-952A-485F9D47D535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPGDGameJam.DesktopGL", "CPGDGameJam.DesktopGL\CPGDGameJam.DesktopGL.csproj", "{393FA9D6-3687-477F-952A-485F9D47D535}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

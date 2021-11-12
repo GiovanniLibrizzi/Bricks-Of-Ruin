@@ -38,5 +38,10 @@ namespace CPGDGameJam.Game {
             }
             return false;
         }
+
+        public void Remove() {
+            world.scene.Remove(this);
+        }
+
     }
 }

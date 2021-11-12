@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CPGDGameJam.Game {
@@ -14,6 +15,8 @@ namespace CPGDGameJam.Game {
         public AnimatedSprite animatedSprite;
         public SpriteEffects spriteEffect;
         public int tick = 0;
+        public bool visible = true;
+        public Color color = Color.White;
 
 
         public Sprite(Texture2D texture) {
@@ -48,27 +51,38 @@ namespace CPGDGameJam.Game {
             }
         }
 
+        public static void DrawNumber(SpriteBatch spriteBatch, Texture2D texture, int number, Vector2 position, Vector2 camPos, Color color) {
+            int width = texture.Width / 10;
+            int[] digits = number.ToString().Select(t => int.Parse(t.ToString())).ToArray();
+            for (int i = 0; i < digits.Length; i++) { 
+                Rectangle rect = new Rectangle(width * digits[i], 0, width, texture.Height);
+                spriteBatch.Draw(texture, new Vector2(position.X*(i+1), position.Y)+camPos, rect, color);
+            }
+        }
+
+
         public virtual void Draw(SpriteBatch spriteBatch) {
             Transform t = entity.GetComponent<Transform>();
 
             // Resets frame count if changing sprites
-            if (spriteList != null) {
-                if (spritePrevious != spriteCurrent) {
-                    animatedSprite = spriteList[spriteCurrent];
-                    animatedSprite.speed = spriteList[spriteCurrent].speedInit;
-                    animatedSprite.frameCurrent = 0;
-                    //animatedSprite.
+            if (visible) {
+                if (spriteList != null) {
+                    if (spritePrevious != spriteCurrent) {
+                        animatedSprite = spriteList[spriteCurrent];
+                        animatedSprite.speed = spriteList[spriteCurrent].speedInit;
+                        animatedSprite.frameCurrent = 0;
+                        //animatedSprite.
+                    }
                 }
-            }
 
-            if (animatedSprite != null) {
-                tick++;
-                spriteBatch.Draw(animatedSprite.texture, t.position, animatedSprite.GetRect(tick), Color.White, 0f, Vector2.Zero, scale, spriteEffect, 0f);
-            } else if (texture != null) {
-                spriteBatch.Draw(texture, t.position, null, Color.White, 0f, Vector2.Zero, scale, spriteEffect, 0f);
+                if (animatedSprite != null) {
+                    spriteBatch.Draw(animatedSprite.texture, t.position, animatedSprite.GetRect(tick), color, 0f, Vector2.Zero, scale, spriteEffect, 0f);
+                } else if (texture != null) {
+                    spriteBatch.Draw(texture, t.position, null, color, 0f, Vector2.Zero, scale, spriteEffect, 0f);
+                }
+                //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale
             }
-            //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale
-            spritePrevious = spriteCurrent;
+             spritePrevious = spriteCurrent;
         }
 
     }

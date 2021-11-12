@@ -22,6 +22,9 @@ namespace CPGDGameJam.Game {
         }
 
         public Rectangle GetRect(int tick) {
+            if (frameSize.x == texture.Width) {
+                return new Rectangle(0, 0, texture.Width, texture.Height);
+            }
             if (speed != 0) {
                 // Sprite Speed Management
                 int tickspd = (int)(tick % (speed+Game1.FRAME_RATE/speed));

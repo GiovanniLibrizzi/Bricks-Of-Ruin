@@ -7,6 +7,7 @@ using System.Text;
 namespace CPGDGameJam.Game.Entities {
     class SolidTexture : Solid {
         Texture2D texture;
+        Sprite sprite;
         public SolidTexture(Texture2D texture, Vector2 position, World world) : base(position, world) {
             //rectangle.Width = this.texture.Bounds.Width;
             //rectangle.Height = this.texture.Bounds.Height;
@@ -17,10 +18,15 @@ namespace CPGDGameJam.Game.Entities {
             transform = new Transform(position);
             AddComponent(transform);
 
-            Sprite sprite = new Sprite(texture);
+            sprite = new Sprite(texture);
             AddComponent(sprite);
         }
+        public void PutSpriteOnTop() {
+            // Draw Sprite on top
+            world.scene.Remove(this);
+            world.scene.Add(this);
+        }
+
+
     }
-
-
 }

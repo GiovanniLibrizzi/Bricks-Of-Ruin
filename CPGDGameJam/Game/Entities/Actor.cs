@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using CPGDGameJam.Game.Entities.Solids;
 
 namespace CPGDGameJam.Game.Entities {
     class Actor : Entity {
@@ -16,7 +17,7 @@ namespace CPGDGameJam.Game.Entities {
 
         public Vector2 velocity;
 
-        protected Sprite sprite;
+        public Sprite sprite;
 
         protected float friction;
         protected float mspd { get; set; }
@@ -27,7 +28,7 @@ namespace CPGDGameJam.Game.Entities {
         public bool touchingGround;
         protected bool touchingWall;
         protected bool touchingClimbable;
-        public Rectangle collisionBox; 
+        public Rectangle collisionBox;
 
 
         public enum Dir {
@@ -201,7 +202,25 @@ namespace CPGDGameJam.Game.Entities {
 
             }
         }
-
+        protected Entity IsTouching(Type entity) {
+            //entity.GetType();
+            Vector2 posA = position;
+            Rectangle boxA = collisionBox;
+            foreach (Entity e in world.scene.OfType<Entity>().ToArray()) {
+                if (entity.Equals(e.GetType())) {
+                    Vector2 posB = e.GetComponent<Transform>().position;
+                    Rectangle boxB = e.GetComponent<Sprite>().texture.Bounds;
+                    Util.Log(posB.X.ToString() + " | " + posB.Y.ToString());
+                    if (posA.X + boxA.Left < posB.X + boxB.Right &&
+                           posA.X + boxA.Right > posB.X + boxB.Left &&
+                           posA.Y + boxA.Top < posB.Y + boxB.Bottom &&
+                           posA.Y + boxA.Bottom > posB.Y + boxB.Top) {
+                        return e;
+                    }
+                }
+            }
+            return null;
+        }
         public static bool Colliding(Vector2 posA, Rectangle boxA, Vector2 posB, Rectangle boxB) {
             return posA.X + boxA.Left < posB.X + boxB.Right &&
                     posA.X + boxA.Right > posB.X + boxB.Left &&
@@ -214,5 +233,11 @@ namespace CPGDGameJam.Game.Entities {
             sprite.Scale(new Vector2((float)direction, 1f));
         }
 
-    }
+        public void PutSpriteOnTop() {
+            // Draw Sprite on top
+            world.scene.Remove(this);
+            world.Add(this);
+        }
+
+        }
 }

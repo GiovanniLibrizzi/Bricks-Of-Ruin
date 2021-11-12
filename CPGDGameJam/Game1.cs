@@ -26,6 +26,7 @@ namespace CPGDGameJam {
         public static int hScr = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 #endif
         Rectangle CANVAS = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        public static int GridSize = 16;
         public static int ScreenWidth = SCREEN_WIDTH * 5;
         public static int ScreenHeight = SCREEN_HEIGHT * 5;
         private RenderTarget2D _renderTarget;
@@ -34,10 +35,24 @@ namespace CPGDGameJam {
         public static bool levelTransition = false;
         public static string levelFile;
 
+        //
         World world;
         Camera camera;
         Player player;
-    
+
+        // Texture Initializing
+        Texture2D sPlayer;
+        Texture2D sLadder;
+        public static Texture2D sBlock;
+        Texture2D sBackground;
+        public static Texture2D sOutline;
+        public static Texture2D sOutlineX;
+        public static Texture2D sNumbers;
+        public static Texture2D sGold;
+        Texture2D tile_bkg;
+
+        public int goldAmt;
+        
 
         List<AnimatedSprite> playerSpriteList;
 
@@ -81,10 +96,12 @@ namespace CPGDGameJam {
 
         protected override void LoadContent() {
             _renderTarget = new RenderTarget2D(GraphicsDevice, CANVAS.Width, CANVAS.Height);
-            if (world != null)
+            if (world != null) {
                 camera = new Camera(world.worldSize);
-            else
+            } else {
                 camera = new Camera(new Vector2Int(int.MaxValue, int.MaxValue));
+                
+            }
 
             graphics.PreferredBackBufferWidth = ScreenWidth;
             graphics.PreferredBackBufferHeight = ScreenHeight;
@@ -92,22 +109,27 @@ namespace CPGDGameJam {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // use this.Content to load your game content here
-            //tPlayer = Content.Load<Texture2D>("Player");
+            sPlayer = Content.Load<Texture2D>("sPlayer");
+            sLadder = Content.Load<Texture2D>("s_ladder");
+            sBlock = Content.Load<Texture2D>("s_block");
+            sOutline = Content.Load<Texture2D>("s_outline");
+            sOutlineX = Content.Load<Texture2D>("s_outline_x");
+            sNumbers = Content.Load<Texture2D>("s_numbers");
+            sBackground = Content.Load<Texture2D>("bkg");
+            sGold = Content.Load<Texture2D>("s_gold");
 
 
 
-            //playerSpriteList = new List<AnimatedSprite> {
-            //    new AnimatedSprite(tPlayerIdle, new Vector2Int(16, 16), 1),
-            //    new AnimatedSprite(tPlayerGlide, new Vector2Int(16, 16), 10),
-            //    new AnimatedSprite(tPlayerClimb, new Vector2Int(16, 16), 7),
-            //    new AnimatedSprite(tPlayerLand, new Vector2Int(16, 16), 8)
-            //};
+            playerSpriteList = new List<AnimatedSprite> {
+                new AnimatedSprite(sPlayer, new Vector2Int(16, 16), 0),
+                new AnimatedSprite(sPlayer, new Vector2Int(16, 16), 1)
+            };
 
             //font1 = Content.Load<SpriteFont>("Font1");
 
             // TODO: Remove this to add a start menu
-            //ToLevel("level1.json");
-            //ScalePresentationArea();
+            ToLevel("level1.json");
+            ScalePresentationArea();
 
 
 
@@ -138,17 +160,29 @@ namespace CPGDGameJam {
             levelFile = level;
         }
         public void ToLevel(string level) {
+            //player.goldAmt = goldAmt;
             world = new World(level, Content);
-            //player = new Player(tPlayer, playerSpriteList, new Vector2(120, 20), world);
+            player = new Player(sPlayer, playerSpriteList, new Vector2(120, 20), world);
+            player.state = Player.pState.Paused;
+            player.goldAmt = goldAmt;
+            world.player = player;
             world.Add(player);
+            world.Add(new MouseBlock(sOutline, new Vector2(100f, 100f), world));
             camera = new Camera(world.worldSize);
             camera.approach.X = -player.position.X - (player.texture.Width / Camera.mod.x);
             camera.approach.Y = -player.position.Y - (player.texture.Height / Camera.mod.y);
+            world.camera = camera;
         }
+
+
+        public void DrawHud() {
+            Sprite.DrawNumber(spriteBatch, sNumbers, goldAmt, new Vector2(8, 8), camera.getPosition(), Color.White);
+           // spriteBatch.Draw();
+        }
+
 
         protected override void Update(GameTime gameTime) {
             Input.GetState();
-            Input.GetMouseState();
             //Input.GetTouchState();
 
             if (camera != null)
@@ -168,9 +202,11 @@ namespace CPGDGameJam {
             if (Input.keyPressed(Keys.F1)) {
                 ToLevel("level1.json");
             }
-            if (Input.keyPressed(Keys.F4)) {
-                ToLevel("level4.json");
-            }
+            //if (Input.keyPressed(Keys.F4)) {
+            //    ToLevel("level4.json");
+            //}
+            goldAmt = player.goldAmt;
+
             if (levelTransition) {
                 ToLevel(levelFile);
                 levelTransition = false;
@@ -183,7 +219,7 @@ namespace CPGDGameJam {
 
 
             if (world != null) {
-                foreach (Entity entity in world.scene) {
+                foreach (Entity entity in world.scene.ToArray()) {
                     entity.Update(gameTime);
                     foreach (Component component in entity.components) {
                         component.Update(gameTime);
@@ -207,8 +243,11 @@ namespace CPGDGameJam {
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.Transform);//, transformMatrix: _camera.Transform);
 
+            // Background
+            spriteBatch.Draw(sBackground, camera.getPosition(), Color.White);
             if (world != null) {
-                world.drawLevel(spriteBatch);
+                world.drawLevel(spriteBatch, world.worldDataBkg, world.tilesetBkg);
+                world.drawLevel(spriteBatch, world.worldData, world.tileset);
             }
             //spriteBatch.Begin();
 
@@ -220,6 +259,8 @@ namespace CPGDGameJam {
                     }
                 }
             }
+
+            DrawHud();
             /* string test = "test";
              spriteBatch.DrawString(font1, , new Vector2(0, 0), Color.White, 0, new Vector2(0,0), 1.0f, SpriteEffects.None, 0.5f);*/
 
@@ -234,5 +275,6 @@ namespace CPGDGameJam {
 
             base.Draw(gameTime);
         }
+ 
     }
 }

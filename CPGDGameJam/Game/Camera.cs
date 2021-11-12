@@ -29,7 +29,7 @@ namespace CPGDGameJam.Game {
             if (target == null) return;
             if (target.GetType() == typeof(Player)) {
                 Player p = (Player)target;
-                if (p.touchingGround || p.state == Player.pState.WallClimb) {
+                if (p.touchingGround || p.state == Player.pState.Ladder) {
                     mainCam = true;
                     if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT) + 128) {
                         approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedMid);
@@ -80,6 +80,16 @@ namespace CPGDGameJam.Game {
             pos1.X = position.M42;
 
             Transform = position * offset;
+        }
+        public Vector2Int getMod() {
+            return mod;
+        }
+
+        public Vector2 getPosition() {
+            Vector2 pos;
+            pos.X = (Math.Abs(approach.X) - Game1.SCREEN_WIDTH) + (Game1.SCREEN_WIDTH / mod.x);
+            pos.Y = (Math.Abs(approach.Y) - Game1.SCREEN_HEIGHT) + (Game1.SCREEN_HEIGHT / mod.y);
+            return pos;
         }
     }
 }

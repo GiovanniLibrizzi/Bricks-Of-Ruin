@@ -23,7 +23,37 @@ namespace CPGDGameJam.Game {
         public static Rectangle RemoveRectPos(Rectangle rect) {
             return new Rectangle(0, 0, rect.Width, rect.Height);
         }
-        
+
+        public static Vector2Int TileAt(Vector2 position, World world) {
+            Vector2Int tilePos;
+            tilePos.x = (int)((Math.Floor(position.X / Game1.GridSize))+world.camera.getPosition().X);
+            tilePos.y = (int)((Math.Floor(position.Y / Game1.GridSize)) + world.camera.getPosition().Y);
+
+            return tilePos;
+        }
+        public static Vector2Int TileAt(Vector2Int position, World world) {
+            Vector2Int tilePos;
+            tilePos.x = (int)((position.x / Game1.GridSize) + world.camera.getPosition().X);
+            tilePos.y = (int)((position.y / Game1.GridSize) + world.camera.getPosition().Y);
+
+
+            return tilePos;
+        }
+
+
+        public static bool InDistance(Vector2Int v1, Vector2Int v2, int s) {
+            s = s * Game1.GridSize;
+            if (v1.x-s < v2.x && v1.x+s > v2.x) {
+                if (v1.y-s < v2.y && v1.y+s > v2.y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static Vector2Int Vector2toInt(Vector2 v) {
+            return new Vector2Int((int)v.X, (int)v.Y);
+        }
     }
 
 
@@ -35,6 +65,10 @@ namespace CPGDGameJam.Game {
             this.x = x;
             this.y = y;
         }
+        public override string ToString() =>
+        $"x: {x}; y: {y};";
+
+
 
     }
 

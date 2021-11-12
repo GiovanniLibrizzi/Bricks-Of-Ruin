@@ -18,23 +18,27 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Components\Transform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Components\Velocity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\MouseBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\LevelTrigger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\SolidNoTexture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\BackgroundTile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Collision.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Gold.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\NormalTile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Block.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\SolidTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NumberSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Util.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
 </Project>
