@@ -80,13 +80,14 @@ namespace CPGDGameJam.Game {
             sprite.spriteCurrent = (int)spriteCurrent;
           
             // RESET BUTTON
-            if (Input.keyPressed(Keys.R)) {
-                ResetPlayer();
+            if (Input.keyPressed(Input.ModeSwap)) {
+                ResetPlayer(World.Mode.Buy);
             }
+
 
             // Check if out of bounds
             if (position.Y > world.worldSize.y + 24) {
-                ResetPlayer();
+                ResetPlayer(World.Mode.Play);
             }
 
 
@@ -325,7 +326,7 @@ namespace CPGDGameJam.Game {
         }
 
 
-        public void ResetPlayer() {
+        public void ResetPlayer(World.Mode toMode) {
             foreach (Block b in world.scene.OfType<Block>().ToArray()) {
                 b.Remove();
             }
@@ -342,7 +343,7 @@ namespace CPGDGameJam.Game {
             direction = startingDir;
             velocity = new Vector2(0, 0);
             tick = 0;
-            world.ToMode(World.Mode.Build);
+            world.ToMode(toMode);
 
         }
 

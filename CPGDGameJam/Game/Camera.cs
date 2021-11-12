@@ -19,14 +19,27 @@ namespace CPGDGameJam.Game {
         private float speed = 0.1f;
         private float speedMid = 0.02f;
         private float speedSlow = 0.01f;
+
+
         private Vector2 minRange = new Vector2((-Game1.SCREEN_WIDTH / mod.x), -Game1.SCREEN_HEIGHT / mod.y);
+        public Actor target;
        
-        public Camera(Vector2Int worldSize) {
+        public Camera(Vector2Int worldSize, Actor target) {
             this.worldSize = worldSize;
+            this.target = target;
         }
-        public void Follow(Actor target) {
+        //public void Follow(Actor target) {
+        //   // this.target = target;
+        //    Follow();
+        //}
+
+        public void Follow() {
             // Camera moves vertically iff player on ground or wall
             if (target == null) return;
+            if (target.GetType() == typeof(MouseBlock)) {
+                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.x), speedSlow);
+                approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedSlow);
+            }
             if (target.GetType() == typeof(Player)) {
                 Player p = (Player)target;
                 if (p.touchingGround || p.state == Player.pState.Ladder) {
@@ -36,7 +49,8 @@ namespace CPGDGameJam.Game {
                     } else {
                         approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedMid);
                     }
-                } else { mainCam = false;  }
+                } else { mainCam = false; }
+                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.x), speed);
             }
 
             // If player is too low or high, speed camera up
@@ -44,9 +58,8 @@ namespace CPGDGameJam.Game {
                 float spd;
                 if (target.position.Y > -(approach.Y) + 32) {   // below
                     spd = 0.05f;
-                }
-                else if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT) + 100) {   // above
-                    spd = speedSlow;   
+                } else if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT) + 100) {   // above
+                    spd = speedSlow;
                 } else {
                     spd = 0f;
                 }
@@ -55,7 +68,7 @@ namespace CPGDGameJam.Game {
             }
             //if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT)+128)
 
-            approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.x), speed);
+            
             //approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speed);
 
             // Clamp camera to map bounds

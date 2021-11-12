@@ -46,7 +46,7 @@
     {
       "definition": "entity",
       "name": "gold_layer",
-      "gridSize": {"x": 1, "y": 1},
+      "gridSize": {"x": 2, "y": 2},
       "exportID": "70348375",
       "requiredTags": [],
       "excludedTags": []

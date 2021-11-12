@@ -97,9 +97,9 @@ namespace CPGDGameJam {
         protected override void LoadContent() {
             _renderTarget = new RenderTarget2D(GraphicsDevice, CANVAS.Width, CANVAS.Height);
             if (world != null) {
-                camera = new Camera(world.worldSize);
+                camera = new Camera(world.worldSize, player);
             } else {
-                camera = new Camera(new Vector2Int(int.MaxValue, int.MaxValue));
+                camera = new Camera(new Vector2Int(int.MaxValue, int.MaxValue), player);
                 
             }
 
@@ -162,17 +162,25 @@ namespace CPGDGameJam {
         public void ToLevel(string level) {
             //player.goldAmt = goldAmt;
             world = new World(level, Content);
+
             player = new Player(sPlayer, playerSpriteList, new Vector2(120, 20), world);
-            player.state = Player.pState.Paused;
+            //player.state = Player.pState.Paused;
             player.goldAmt = goldAmt;
             player.goldAmtPrev = goldAmt;
             world.player = player;
             world.Add(player);
-            world.Add(new MouseBlock(sOutline, new Vector2(100f, 100f), world));
-            camera = new Camera(world.worldSize);
+
+            MouseBlock mb = new MouseBlock(sOutline, new Vector2(100f, 100f), world);
+            world.Add(mb);
+            world.mouseBlock = mb;
+
+            camera = new Camera(world.worldSize, player);
             camera.approach.X = -player.position.X - (player.texture.Width / Camera.mod.x);
             camera.approach.Y = -player.position.Y - (player.texture.Height / Camera.mod.y);
             world.camera = camera;
+
+            world.ToMode(World.Mode.Buy);
+
         }
 
 
@@ -187,7 +195,7 @@ namespace CPGDGameJam {
             //Input.GetTouchState();
 
             if (camera != null)
-                camera.Follow(player);
+                camera.Follow();
 #if !ANDROID
             float framerate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
             Window.Title = "Game - " + System.String.Format("{0:0.00}", framerate) + " FPS";

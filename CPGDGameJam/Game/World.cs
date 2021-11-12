@@ -17,11 +17,11 @@ namespace CPGDGameJam.Game {
         public List<Entity> scene = new List<Entity>();
 
         public enum Mode {
-            Build,
+            Buy,
             Play
         }
 
-        public Mode mode = Mode.Build;
+        public Mode mode = Mode.Buy;
 
         public Player player;
         public Camera camera;
@@ -269,9 +269,11 @@ namespace CPGDGameJam.Game {
             switch (mode) {
                 case Mode.Play:
                     player.state = Player.pState.Idle;
+                    camera.target = player;
                     break;
-                case Mode.Build:
+                case Mode.Buy:
                     player.state = Player.pState.Paused;
+                    camera.target = mouseBlock;
                     break;
             }
             this.mode = mode;

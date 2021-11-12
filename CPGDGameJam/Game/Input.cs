@@ -17,7 +17,7 @@ namespace CPGDGameJam.Game {
         public static Btn Left = new Btn(Keys.A, Keys.Left, Buttons.LeftThumbstickLeft, Buttons.DPadLeft);
         public static Btn Right = new Btn(Keys.D, Keys.Right, Buttons.LeftThumbstickRight, Buttons.DPadRight);
         public static Btn Jump = new Btn(Keys.K, Keys.Space, Buttons.A);
-        public static Btn ModeSwap = new Btn(Keys.M);
+        public static Btn ModeSwap = new Btn(Keys.M, Keys.Enter, Keys.R);
 
         static KeyboardState currentKeyState;
         static KeyboardState previousKeyState;
@@ -213,6 +213,14 @@ namespace CPGDGameJam.Game {
             
             public Btn(Keys key1) {
                 keys = new List<Keys>() { key1 };
+                buttons = null;
+            }
+            public Btn(Keys key1, Keys key2) {
+                keys = new List<Keys>() { key1, key2 };
+                buttons = null;
+            }
+            public Btn(Keys key1, Keys key2, Keys key3) {
+                keys = new List<Keys>() { key1, key2, key3 };
                 buttons = null;
             }
 
