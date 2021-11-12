@@ -165,6 +165,7 @@ namespace CPGDGameJam {
             player = new Player(sPlayer, playerSpriteList, new Vector2(120, 20), world);
             player.state = Player.pState.Paused;
             player.goldAmt = goldAmt;
+            player.goldAmtPrev = goldAmt;
             world.player = player;
             world.Add(player);
             world.Add(new MouseBlock(sOutline, new Vector2(100f, 100f), world));

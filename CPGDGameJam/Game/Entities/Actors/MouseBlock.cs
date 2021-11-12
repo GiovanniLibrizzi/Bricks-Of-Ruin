@@ -28,13 +28,13 @@ namespace CPGDGameJam.Game {
             //if (world.mode == World.Mode.Build) {
             //Util.Log(Util.TileAt(world.player.position, world).ToString() + " ||| " + Util.TileAt(posInt, world).ToString());
             ///if (Util.TileAt(world.player.position, world).Equals(Util.TileAt(posInt, world))){// && world.backgroundData.Contains(Util.TileAt(posInt, world))) {
-            if (Util.InDistance(Util.Vector2toInt(world.player.position), posInt, range) && world.backgroundData.Contains(posInt)) {
+            if (Util.InDistance(Util.Vector2toInt(world.player.position), posInt, range) && !world.placedData.Contains(posInt) && world.backgroundData.Contains(posInt) && !world.foregroundData.Contains(posInt)) {
                 BlockPlacing();
                 sprite.color = Color.White;
             } else {
                 sprite.color = Color.Red;
             }
-            if (!world.backgroundData.Contains(posInt)) {
+            if (!world.backgroundData.Contains(posInt) || (world.backgroundData.Contains(posInt) && (world.foregroundData.Contains(posInt)) || world.placedData.Contains(posInt))) {
                 sprite.texture = Game1.sOutlineX;
             } else {
                 sprite.texture = Game1.sOutline;
@@ -65,6 +65,7 @@ namespace CPGDGameJam.Game {
                         //world.scene.Add(new Block(Game1.sBlock, mouseTile, this.world));
                         //world.scene.Add(new Collision(mouseTile, new Vector2Int(16, 16), this.world));
                         world.scene.Add(new Block(Game1.sBlock, mouseTile, this.world));
+                        world.placedData.Add(Util.Vector2toInt(mouseTile));
                         //MouseBlock mb = this;
 
                         PutSpriteOnTop();

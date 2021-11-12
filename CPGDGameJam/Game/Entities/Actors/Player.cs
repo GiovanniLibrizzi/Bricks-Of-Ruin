@@ -79,33 +79,26 @@ namespace CPGDGameJam.Game {
             }
             sprite.spriteCurrent = (int)spriteCurrent;
           
-            // debug reset
+            // RESET BUTTON
             if (Input.keyPressed(Keys.R)) {
-                foreach (Block b in world.scene.OfType<Block>().ToArray()) {
-                    b.Remove();
-                }
-                foreach (Gold g in world.scene.OfType<Gold>().ToArray()) {
-                    g.Remove();
-                }
-                foreach (Vector2 v in world.goldData) {
-                    world.scene.Add(new Gold(Game1.sGold, v, world));
-                }
-                goldAmt = goldAmtPrev;
-                position = startingPosition;
-                direction = startingDir;
-                velocity = new Vector2(0, 0);
-                tick = 0;
-                world.ToMode(World.Mode.Build);
+                ResetPlayer();
             }
+
+            // Check if out of bounds
+            if (position.Y > world.worldSize.y + 24) {
+                ResetPlayer();
+            }
+
+
 
             gravity = grav[(int)state];
 
+            // Check if touching gold
             Entity e = IsTouching(typeof(Gold));
             if (e != null) {
                 goldAmt++;
                 e.Remove();
             }
-            //if (touchingGround) friction = fricDef; else friction = fricAir;
 
             // Player States
             #region Player States
@@ -306,34 +299,6 @@ namespace CPGDGameJam.Game {
             #endregion
 
 
-
-            //Util.Log("state: " + state + " || touchingClimbable: " + touchingClimbable);
-            // Movement Controls
-            /*if (Input.keyDown(Input.Right)) {
-                Move(Dir.Right);
-            }
-            if (Input.keyDown(Input.Left)) {
-                Move(Dir.Left);
-            }
-            if (!Input.keyDown(Input.Right) && !Input.keyDown(Input.Left)) {
-                Move(Dir.Stop);
-            }*/
-
-            // Jump
-            /*if (Input.keyPressed(Input.Jump) && onGround) {
-                System.Diagnostics.Debug.WriteLine("JUMP!");
-                Jump();
-            }*/
-
-            // Jump height variation
-            /*if (velocity.Y < 0) {
-                if (!Input.keyPressed(Input.Jump)) {
-                    velocity.Y = Util.Lerp(velocity.Y, 0, 0.05f);
-                }
-                if (Input.keyReleased(Input.Jump)) {
-                    velocity.Y = Util.Lerp(velocity.Y, 0, 0.5f);
-                }
-            }*/
             TouchingLevelTrigger();
             Gravity();
 
@@ -360,17 +325,27 @@ namespace CPGDGameJam.Game {
         }
 
 
-        //private void MouseInput() {
+        public void ResetPlayer() {
+            foreach (Block b in world.scene.OfType<Block>().ToArray()) {
+                b.Remove();
+            }
+            foreach (Gold g in world.scene.OfType<Gold>().ToArray()) {
+                g.Remove();
+            }
+            foreach (Vector2 v in world.goldData) {
+                world.scene.Add(new Gold(Game1.sGold, v, world));
+            }
+            world.placedData.Clear();
+           
+            goldAmt = goldAmtPrev;
+            position = startingPosition;
+            direction = startingDir;
+            velocity = new Vector2(0, 0);
+            tick = 0;
+            world.ToMode(World.Mode.Build);
 
-        //    mousePos.x = Input.getMousePos().x / (Game1.ScreenWidth / Game1.SCREEN_WIDTH);
-        //    mousePos.y = Input.getMousePos().y / (Game1.ScreenHeight / Game1.SCREEN_HEIGHT);
-        //   // Util.Log("X: " + mousePos.x.ToString() + " | y: " + mousePos.y.ToString()); 
-        //    mouseTilePos.x = mousePos.x / Game1.GridSize;
-        //    mouseTilePos.y = mousePos.y / Game1.GridSize;
+        }
 
-        //    float test = mousePos.y + (world.camera.approach.Y+Game1.SCREEN_HEIGHT);
-
-        //}
 
         protected void TouchingLevelTrigger() {
             foreach (LevelTrigger s in world.scene.OfType<LevelTrigger>()) {

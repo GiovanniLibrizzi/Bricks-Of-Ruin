@@ -210,7 +210,6 @@ namespace CPGDGameJam.Game.Entities {
                 if (entity.Equals(e.GetType())) {
                     Vector2 posB = e.GetComponent<Transform>().position;
                     Rectangle boxB = e.GetComponent<Sprite>().texture.Bounds;
-                    Util.Log(posB.X.ToString() + " | " + posB.Y.ToString());
                     if (posA.X + boxA.Left < posB.X + boxB.Right &&
                            posA.X + boxA.Right > posB.X + boxB.Left &&
                            posA.Y + boxA.Top < posB.Y + boxB.Bottom &&

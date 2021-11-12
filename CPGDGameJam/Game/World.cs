@@ -36,8 +36,11 @@ namespace CPGDGameJam.Game {
         private Vector2Int tileSize, worldGridSize, tilesetSize;
         private Vector2Int tileSizeBkg, worldGridSizeBkg, tilesetSizeBkg;
 
+        public List<Vector2Int> foregroundData = new List<Vector2Int>(); 
         public List<Vector2Int> backgroundData = new List<Vector2Int>();
         public List<Vector2> goldData = new List<Vector2>();
+        public List<Vector2Int> placedData = new List<Vector2Int>();
+
 
         public List<int> worldData = new List<int>();
         public List<int> worldDataBkg = new List<int>();
@@ -221,7 +224,8 @@ namespace CPGDGameJam.Game {
 
                     } else if (tileID == levelTriggerData) {
 
-                    } else { 
+                    } else {
+                        foregroundData.Add(new Vector2Int((int)x, (int)y));
                         scene.Add(new Collision(new Vector2(x, y), new Vector2Int(tileSize.x, tileSize.y), this));
 
                     }

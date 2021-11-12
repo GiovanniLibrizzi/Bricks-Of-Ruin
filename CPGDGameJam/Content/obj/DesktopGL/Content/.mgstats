@@ -1,5 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Levels/level1.json","C:\Users\porta\Programming\MonoGame\CPGDGameJam\CPGDGameJam\Content\bin\DesktopGL\Content\level1.json","CopyItem","File",4841,4841,0.002102
+"C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Levels/level1.json","C:\Users\porta\Programming\MonoGame\CPGDGameJam\CPGDGameJam\Content\bin\DesktopGL\Content\level1.json","CopyItem","File",5193,5193,0.0029992
 "C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Levels/level2.json","C:\Users\porta\Programming\MonoGame\CPGDGameJam\CPGDGameJam\Content\bin\DesktopGL\Content\level2.json","CopyItem","File",4841,4841,0.0023887
 "C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_block.png","C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/s_block.xnb","TextureProcessor","Texture2DContent",185,1109,0.1633024
 "C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_gold.png","C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/s_gold.xnb","TextureProcessor","Texture2DContent",156,229,0.1187183
