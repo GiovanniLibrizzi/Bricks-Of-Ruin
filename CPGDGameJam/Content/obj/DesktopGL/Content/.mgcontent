@@ -4,9 +4,18 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/cpgdjam.mp3</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_coin.wav</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_jump.wav</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_land.wav</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_menu_click.wav</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_place.wav</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/sfx_spring.wav</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/bkg.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_block.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_crumblingblock.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_enterbuild.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_enterplay.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_gold.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_gold_anim.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_hud_block.png</File>
@@ -18,22 +27,34 @@
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_hud_slash.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_hud_spring.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_ladder.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_laser.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_numbers.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_numbers_small.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_outline.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_outline_x.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_player.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_player_jump.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_player_walk.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_spring.png</File>
+    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_titlescreen.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/text_buymode.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/tile_bkg.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/tile_main.png</File>
     <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/Collision.png</File>
-    <File>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/sPlayer.png</File>
   </SourceFiles>
   <DestFiles>
+    <File>cpgdjam.mp3</File>
+    <File>sfx_coin.wav</File>
+    <File>sfx_jump.wav</File>
+    <File>sfx_land.wav</File>
+    <File>sfx_menu_click.wav</File>
+    <File>sfx_place.wav</File>
+    <File>sfx_spring.wav</File>
     <File>bkg.png</File>
     <File>s_block.png</File>
     <File>s_crumblingblock.png</File>
+    <File>s_enterbuild.png</File>
+    <File>s_enterplay.png</File>
     <File>s_gold.png</File>
     <File>s_gold_anim.png</File>
     <File>s_hud_block.png</File>
@@ -45,16 +66,19 @@
     <File>s_hud_slash.png</File>
     <File>s_hud_spring.png</File>
     <File>s_ladder.png</File>
+    <File>s_laser.png</File>
     <File>s_numbers.png</File>
     <File>s_numbers_small.png</File>
     <File>s_outline.png</File>
     <File>s_outline_x.png</File>
     <File>s_player.png</File>
+    <File>s_player_jump.png</File>
+    <File>s_player_walk.png</File>
     <File>s_spring.png</File>
+    <File>s_titlescreen.png</File>
     <File>text_buymode.png</File>
     <File>tile_bkg.png</File>
     <File>tile_main.png</File>
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

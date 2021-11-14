@@ -51,7 +51,7 @@
     {
       "definition": "entity",
       "name": "gold_layer",
-      "gridSize": {"x": 2, "y": 2},
+      "gridSize": {"x": 4, "y": 4},
       "exportID": "70348375",
       "requiredTags": [],
       "excludedTags": []
@@ -102,7 +102,7 @@
         }
       ],
       "texture": "../Sprites/s_player.png",
-      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAENJREFUOI1jTF5t/5+BAsBEiWbaGzApZCVBMbwG5K0Jx9CALjbwYcA4uKMRWyygyxH0Ai5D8taEE2cAITDw0TjwBgAAS08Yiagl1qsAAAAASUVORK5CYII="
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAJtJREFUOI1jNJ+S9z8p8BEDuYCFgYGB4eLNB2Rp1ldXYGDCJTnV8TzDVMfzBMWwGnD2mh1RYjgNIAUQNADdyUQZYKx1iMFiaj5OMWRDae8FQoAFn6TF1HwGY61DeMUwDID5L5vBEMNAdMMwDDh7zY6BwRHVIGwgez/CcIwwQA99QgDFBTAnEjLEWAuHAegGEe0CXOmcEDh7jYEBABecLyDctUqEAAAAAElFTkSuQmCC"
     },
     {
       "exportID": "67172640",
@@ -178,7 +178,7 @@
       "tags": [],
       "values": [],
       "texture": "../Sprites/s_gold.png",
-      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAAGJJREFUCJl9jDsOQEAUAEeyGodQqp1D4mwOQ6tyAKIU2+k0xGdjfZ5iWzHlJDPwh0yZWB2J7UOZGwRAWR0JQYLvBXDUPGqgyQtRZulga7nmivscMcYA4AH0pcvX3a3j1PlPXuQeKH3g3+NAAAAAAElFTkSuQmCC"
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAAIFJREFUGJV9jyESwyAQRd9GkAM0inhMHA5Zwy1yutyiJrIOV4NPVXqAYKgJtExn+uT+N3/+Cif5cc18IdMqAAJwLGPe91cNh+GCsgaZVpESau+q8Lzdq9QBaO9IIVZBe0dp7PhDCvEjKGtIITZNzUhlzc+Gft5EyvFYxubNft4E4A3W2i39dvXOcQAAAABJRU5ErkJggg=="
     },
     {
       "exportID": "85472877",
@@ -255,10 +255,86 @@
       "values": [],
       "texture": "../Sprites/s_spring.png",
       "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMBJREFUOI1jYBgFo4CBgXGtvuv/oKh3DM/3sDFIuvxiYLDMY2A4PgnOR6aPv+JhsBT7wnD8FQ/cACZLsS8M65YJEdTMwMAA12wp9gXhAgYGBob/ncb/yXFB8MXdjIzoflq8/NB/BgYGBhtLNQYGBgaGI8dvMdhYqjEcOX4LriY20g6uD8WA+w9e/BeTJxxwrx4yMCgqSDBiGAAzhJABMM1wA1YHGhDUhA2Err/AyMLAwMBw6Tkzg57kXzgNEyMGAADrjlzVXG2q9QAAAABJRU5ErkJggg=="
+    },
+    {
+      "exportID": "91439345",
+      "name": "Laser",
+      "limit": -1,
+      "size": {"x": 16, "y": 16},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 16, "y": 16},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": [],
+      "texture": "../Sprites/s_laser.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAGRJREFUOI2lk0EWABAIRHEE97VyX1fIiudhamKWNX5JQtgkrYq0KnscKbHGm45Ca8DTBSS6IMhMQTTTyCEPPcSYS4QVrDa1fFLpjNhJmz4GdHvmOcSva3j0va3rwecl8/5YFdwB3gxh4HbV44oAAAAASUVORK5CYII="
+    },
+    {
+      "exportID": "91704926",
+      "name": "CrumblingBlock",
+      "limit": -1,
+      "size": {"x": 16, "y": 16},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 16, "y": 16},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": [],
+      "texture": "../Sprites/s_crumblingblock.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAV1JREFUOI19k81Kw0AUhb/81BDa0pKuXYsvIejC1/BFBJ+l7yEVunLhxl3BhUi00EVCQwwxadJxUe90Mm2dzcDce86559zEAchnU5WuM6LxCOI5nF9hnnSdARDlr53a8ObOcfLZVBHPcfwzkqwk6ns7UNES9T3SomUyCgFQTb0n/au78mAWASajUINVUx+AhdQ99mgS2sR23U0XTxqcZCVp0R5M0cnDEvInl9ewfEY1tS5IFqfUk6wE4Cf9xFcK+GdcmcwOFGCxcvcZ2KC0aEmLVpOaNiXU8SDYEYhPucWOuQnZhplLW5U7ArPRTDnJyo7qMZuuqSjhmCOfyqVDYJKIdxNsr1M1Ncv4AwCfeN4pCMBUFiuqqTVRvnEZ9ra49o8jANuKfGSbImFTJIwHQXcCYRZ/X+9vAHhByGJVacD6u2LY22oBB+Dl4VZJQ1vt1eV4QaiBXhDqnov7R+cXzBEMckTIp7EAAAAASUVORK5CYII="
     }
   ],
   "tilesets": [
     {"label": "tile_main", "path": "../Sprites/tile_main.png", "image": "data:image/png;base64,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", "tileWidth": 16, "tileHeight": 16, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0},
-    {"label": "tile_bkg", "path": "../Sprites/tile_bkg.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAalJREFUeJzt3MFNw0AQQNEJoghEL5TAmTqohDo4UwK9ILqAk6Uccki8s7Yn8949XlvztUTZhFMcyMfr29/e93CN96/P04zrXvv8metPeZA1qgx/kR3Brc+ftf4hAqg2/EXWENY+f8b6uwdQdfiL0SGMPv/o+g8jL6Y+ATQngOYE0JwAmhNAcwJo7nHvGxjx/fObcp2X56eU61RUdgfIGn72taopGcCMgXWNoFwAMwfVMYJSAWwxoG4RlH4TeDR7HGytWfP8AKnUDnBklU41z+9VAAkqDX+x3HOp7wNs9fe50+cCdoDmBNCcAJoTQHMCaE4AzQmgOQE0J4DmBDBo9Jc5I6/PWFsACfaIIGtNASTZMoLMtRwGXXDLYdCs/xWwlVI7wBandJ1OAiOKBRAxd0Ddhh9RMICIOYPqOPyIogFE5A6s6/Ajin8ptPPgspTdAcghgOYE0JwAmhNAcwJoTgDNHeIgo+JPqyLqHwRFHCSAiHoR3MPwIw4UQESdCO5l+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBl//CJeKE113sDAAAAAElFTkSuQmCC", "tileWidth": 16, "tileHeight": 16, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0}
+    {"label": "tile_bkg", "path": "../Sprites/tile_bkg.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAatJREFUeJzt3M1t21AQhdGxkSIC9+ISvE4dqSR1ZO0S3IvhLpwVAS2ykMjhz+Cesyffo+YDLZiSnupC/rz9+j57D/f4/f73aY/z3nv9nevvciFrTBn+ojuCR6+/a/1LBDBt+IuuIay9/o71Tw9g6vAXW4ew9fq3rv+85WDmE0A4AYQTQDgBhBNAOAGE+3H2Brb4+PxqOc/ry8+W80w09g7QNfzuc00zMoA9BpYawbgA9hxUYgSjAjhiQGkRjH4TeDVnPNhas+btA6RRd4Arm/RU83avAmgwafiLZc+jPg9w1N/npP8LuAOEE0A4AYQTQDgBhBNAOAGEE0A4AYQTwEZbv5mz5fiOtQXQ4IwIutYUQJMjI+hcy+cBGq0ZzJonibfHRH059IindElPAquGBVC174DShl81MICqfQaVOPyqoQFU9Q4sdfhVw98EJg+uy9g7AD0EEE4A4QQQTgDhBBBOAOFOD2CvH14+wuS9L04PoGrmCzlxz/9ziQCqZr2gk/YKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPO4fqjV4e0TkIAMAAAAASUVORK5CYII=", "tileWidth": 16, "tileHeight": 16, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0}
   ]
 }

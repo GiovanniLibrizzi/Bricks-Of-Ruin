@@ -16,11 +16,77 @@
 #begin ../../Assets/Levels/level1.json
 /copy:../../Assets/Levels/level1.json;level1.json
 
+#begin ../../Assets/Levels/level10.json
+/copy:../../Assets/Levels/level10.json;level10.json
+
 #begin ../../Assets/Levels/level2.json
 /copy:../../Assets/Levels/level2.json;level2.json
 
 #begin ../../Assets/Levels/level3.json
 /copy:../../Assets/Levels/level3.json;level3.json
+
+#begin ../../Assets/Levels/level4.json
+/copy:../../Assets/Levels/level4.json;level4.json
+
+#begin ../../Assets/Levels/level5.json
+/copy:../../Assets/Levels/level5.json;level5.json
+
+#begin ../../Assets/Levels/level6.json
+/copy:../../Assets/Levels/level6.json;level6.json
+
+#begin ../../Assets/Levels/level7.json
+/copy:../../Assets/Levels/level7.json;level7.json
+
+#begin ../../Assets/Levels/level8.json
+/copy:../../Assets/Levels/level8.json;level8.json
+
+#begin ../../Assets/Levels/level9.json
+/copy:../../Assets/Levels/level9.json;level9.json
+
+#begin ../../Assets/Levels/levelend.json
+/copy:../../Assets/Levels/levelend.json;levelend.json
+
+#begin ../../Assets/Sounds/cpgdjam.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/cpgdjam.mp3;cpgdjam.mp3
+
+#begin ../../Assets/Sounds/sfx_coin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_coin.wav;sfx_coin.wav
+
+#begin ../../Assets/Sounds/sfx_jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_jump.wav;sfx_jump.wav
+
+#begin ../../Assets/Sounds/sfx_land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_land.wav;sfx_land.wav
+
+#begin ../../Assets/Sounds/sfx_menu_click.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_menu_click.wav;sfx_menu_click.wav
+
+#begin ../../Assets/Sounds/sfx_place.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_place.wav;sfx_place.wav
+
+#begin ../../Assets/Sounds/sfx_spring.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Sounds/sfx_spring.wav;sfx_spring.wav
 
 #begin ../../Assets/Sprites/bkg.png
 /importer:TextureImporter
@@ -57,6 +123,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Assets/Sprites/s_crumblingblock.png;s_crumblingblock.png
+
+#begin ../../Assets/Sprites/s_enterbuild.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_enterbuild.png;s_enterbuild.png
+
+#begin ../../Assets/Sprites/s_enterplay.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_enterplay.png;s_enterplay.png
 
 #begin ../../Assets/Sprites/s_gold.png
 /importer:TextureImporter
@@ -190,6 +280,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Sprites/s_ladder.png;s_ladder.png
 
+#begin ../../Assets/Sprites/s_laser.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_laser.png;s_laser.png
+
 #begin ../../Assets/Sprites/s_numbers.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -250,6 +352,30 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Sprites/s_player.png;s_player.png
 
+#begin ../../Assets/Sprites/s_player_jump.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_player_jump.png;s_player_jump.png
+
+#begin ../../Assets/Sprites/s_player_walk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_player_walk.png;s_player_walk.png
+
 #begin ../../Assets/Sprites/s_spring.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -261,6 +387,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Assets/Sprites/s_spring.png;s_spring.png
+
+#begin ../../Assets/Sprites/s_titlescreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Sprites/s_titlescreen.png;s_titlescreen.png
 
 #begin ../../Assets/Sprites/text_buymode.png
 /importer:TextureImporter
@@ -309,16 +447,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Collision.png
-
-#begin sPlayer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sPlayer.png
 

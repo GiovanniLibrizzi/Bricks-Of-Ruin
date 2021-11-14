@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CPGDGameJam.Game.Entities.Solids {
     class CrumblingBlock : Block {
-        private bool crumbling = false;
+        public bool crumbling = false;
         private int cTick = 0;
         private int breakTick = 55;
         private float posX;
@@ -27,10 +27,9 @@ namespace CPGDGameJam.Game.Entities.Solids {
                     position.X = posX + new Random().Next(-1, 1);
                 //position.X = new Random().Next(-1, 1);
                 if (cTick >= breakTick) {
-                    position.Y += Actor.gravityDef*4;
-                    if (position.Y > world.worldSize.y + 24) {
-                        this.Remove();
-
+                    
+                    if (position.Y <= world.worldSize.y + 24) {
+                        position.Y += Actor.gravityDef * 4;
                     }
                 }
                    // this.Remove();

@@ -59,6 +59,7 @@ namespace CPGDGameJam.Game {
 
         public ContentManager content;
         public AnimatedSprite animGold;
+        public bool noAudio;
         Texture2D sGoldAnim;
 
         enum Layer {
@@ -200,6 +201,12 @@ namespace CPGDGameJam.Game {
                         case "Spring":
                             scene.Add(new Spring(Game1.sSpring, new Vector2((float)entity.x, (float)entity.y), this));
                             break;
+                        case "Laser":
+                            scene.Add(new Laser(Game1.sLaser, new Vector2((float)entity.x, (float)entity.y), this));
+                            break;
+                        case "CrumblingBlock":
+                            scene.Add(new CrumblingBlock(Game1.sCrumblingBlock, new Vector2((float)entity.x, (float)entity.y), this));
+                            break;
                         default: break;
                     }
 
@@ -311,8 +318,12 @@ namespace CPGDGameJam.Game {
         public void ToMode(Mode mode) {
             Mode fromMode = this.mode;
             Util.Log(mode.ToString());
+            if (fromMode != mode) {
+                Game1.PlaySound(Game1.sfx.menuClick, 1f, 0f, this.noAudio);
+            }
             switch (mode) {
                 case Mode.Play:
+                    
                     if (fromMode == Mode.Buy) {
                         Util.Log("from buy");
                         player.goldAmtPrev = player.goldAmt;

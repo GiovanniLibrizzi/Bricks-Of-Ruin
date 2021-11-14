@@ -29,6 +29,7 @@ namespace CPGDGameJam.Game.Entities {
         protected bool touchingWall;
         protected bool touchingClimbable;
         public Rectangle collisionBox;
+        public Vector2 initialPosition;
 
 
         public enum Dir {
@@ -50,6 +51,8 @@ namespace CPGDGameJam.Game.Entities {
         public Actor(Texture2D texture, Vector2 pos, World scene) : base(scene) {
 
             position = pos;
+            initialPosition = new Vector2(pos.X, pos.Y);
+
             this.texture = texture;
 
 
@@ -64,6 +67,7 @@ namespace CPGDGameJam.Game.Entities {
         public Actor(Texture2D texture, List<AnimatedSprite> spriteList, Vector2 pos, World scene) : base(scene) {
 
             position = pos;
+            initialPosition = new Vector2(pos.X, pos.Y);
             this.texture = texture;
 
             this.spriteList = spriteList;
@@ -162,6 +166,7 @@ namespace CPGDGameJam.Game.Entities {
         }
 
         protected void Jump(float jspd) {
+            Game1.PlaySound(Game1.sfx.jump, 1f, 0f, world.noAudio);
             velocity.Y = -jspd;
             touchingGround = false;
         }

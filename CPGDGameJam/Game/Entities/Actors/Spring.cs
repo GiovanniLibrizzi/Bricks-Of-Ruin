@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CPGDGameJam.Game.Entities.Solids;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CPGDGameJam.Game.Entities.Actors {
@@ -15,6 +17,13 @@ namespace CPGDGameJam.Game.Entities.Actors {
             if (Colliding(world.player.position, world.player.collisionBox, position, texture.Bounds)) {
                 world.player.state = Player.pState.Launched;
                 world.player.velocity.Y = -4f;
+                Game1.PlaySound(Game1.sfx.spring, 1f, 0f, world.noAudio);
+                foreach (CrumblingBlock c in world.scene.OfType<CrumblingBlock>().ToArray()) {
+                    if (c.position.X == position.X && !c.crumbling) {
+                        c.crumbling = true;
+                    }
+                }
+            
             }
 
             Gravity();

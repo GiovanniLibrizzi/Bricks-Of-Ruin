@@ -85,7 +85,8 @@ namespace CPGDGameJam.Game {
                                 world.placedData.Add(mouseTile);
                                 break;
                         }
-                        
+
+                        Game1.PlaySound(Game1.sfx.place, 1f, 0.4f, world.noAudio);
                         //MouseBlock mb = this;
 
                         PutSpriteOnTop();

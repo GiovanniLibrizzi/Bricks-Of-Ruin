@@ -17,6 +17,7 @@ namespace CPGDGameJam.Game {
         public Vector2 approach = new Vector2(0, 0);
         private bool mainCam = false;
         private float speed = 0.1f;
+        private float speedBlock = 0.016f;
         private float speedMid = 0.02f;
         private float speedSlow = 0.01f;
 
@@ -37,12 +38,12 @@ namespace CPGDGameJam.Game {
             // Camera moves vertically iff player on ground or wall
             if (target == null) return;
             if (target.GetType() == typeof(MouseBlock)) {
-                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.X), speedSlow);
-                approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedSlow);
+                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.X), speedBlock);
+                approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedBlock);
             }
             if (target.GetType() == typeof(Player)) {
                 Player p = (Player)target;
-                if (p.touchingGround || p.state == Player.pState.Ladder) {
+                if (p.touchingGround || p.state == Player.pState.Launched || p.state == Player.pState.Ladder) {
                     mainCam = true;
                     if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT) + 128) {
                         approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedMid);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/tile_bkg.png</SourceFile>
-  <SourceTime>2021-11-11T15:12:25.4710567-08:00</SourceTime>
+  <SourceTime>2021-11-14T13:41:37.6141738-08:00</SourceTime>
   <DestFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/tile_bkg.xnb</DestFile>
-  <DestTime>2021-11-11T15:42:37.3955108-08:00</DestTime>
+  <DestTime>2021-11-14T13:44:17.3147992-08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

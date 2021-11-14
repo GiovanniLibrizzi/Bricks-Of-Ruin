@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\CrumblingBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\Gold.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Ladder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Laser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\NormalTile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Block.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\SolidTexture.cs" />

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sounds/cpgdjam.mp3</SourceFile>
+  <SourceTime>2021-11-14T00:52:21.3312479-08:00</SourceTime>
+  <DestFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/cpgdjam.xnb</DestFile>
+  <DestTime>2021-11-14T08:47:31.1786398-08:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2020-08-10T09:17:54-07:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/cpgdjam.ogg</string>
+  </BuildOutput>
+</PipelineBuildEvent>

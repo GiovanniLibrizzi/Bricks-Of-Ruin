@@ -21,6 +21,7 @@ namespace CPGDGameJam.Game {
                 for (int i = 0; i < world.blockAmt; i++) {
                     if (Input.keyPressed(Input.numKeys[i])) {
                         BuyBlock((World.BlockType)i);
+                        
                     }
                 }
             }
@@ -30,6 +31,8 @@ namespace CPGDGameJam.Game {
             if (world.player.goldAmt - world.blockPrice[(int)block] >= 0 && world.blockInventory[(int)block] < world.blockLimit[(int)block]) {
                 world.blockInventory[(int)block]++;
                 world.player.goldAmt -= world.blockPrice[(int)block];
+                Game1.PlaySound(Game1.sfx.menuClick, 1f, 0.3f, world.noAudio);
+                world.blockCurrent = block;
                 Util.Log("Purchased: " + block.ToString() + " | curAmt: " + world.blockInventory[(int)block].ToString());
             }
         }

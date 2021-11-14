@@ -54,6 +54,7 @@ namespace CPGDGameJam.Game {
 
         public enum pSprite {
             Idle,
+            Walk,
             Jump,
         }
         private pSprite spriteCurrent = pSprite.Idle;
@@ -66,7 +67,7 @@ namespace CPGDGameJam.Game {
             friction = fricDef;
             direction = Dir.Right;
 
-            collisionBox = new Rectangle(0, 0, 16, 16);
+            collisionBox = new Rectangle(1, 0, 14, 16);
         }
 
         public override void Update(GameTime gameTime) {
@@ -92,16 +93,24 @@ namespace CPGDGameJam.Game {
             // Check if touching gold
             Entity e = IsTouching(typeof(Gold));
             if (e != null) {
+                Random r = new Random();
+                Game1.PlaySound(Game1.sfx.coin, 0.7f, (float)-r.NextDouble(), world.noAudio);
                 goldAmt++;
                 e.Remove();
             }
-
+        
             // Player States
             #region Player States
             switch (state) {
                 #region Idle
                 case pState.Idle:
-                    spriteCurrent = pSprite.Idle;
+                    
+                    if (velocity.X == 0) {
+                        spriteCurrent = pSprite.Idle;
+                    } else {
+                        spriteCurrent = pSprite.Walk;
+                        //spriteList[(int)spriteCurrent].speed = mspd * 2;
+                    }
                     //Util.Log(Util.TileAt(position, world).ToString());
                     Movement(mspd);
 
@@ -122,6 +131,7 @@ namespace CPGDGameJam.Game {
                 #endregion
                 #region Jump
                 case pState.Jump:
+                    spriteCurrent = pSprite.Jump;
                     //spriteCurrent
                     //if (touchingGround)
                     //    StopMoving(); // Horizontally
@@ -141,6 +151,7 @@ namespace CPGDGameJam.Game {
                     //Transitions
                     
                     if (touchingGround) {
+                        Game1.PlaySound(Game1.sfx.land, 1f, 0f, world.noAudio);
                         StateGoto(pState.Idle);
                     }
 
@@ -158,12 +169,15 @@ namespace CPGDGameJam.Game {
                     if (Input.keyPressed(Input.ModeSwap) && !modeSwitched) {
                         Util.Log("pressed");
                         modeSwitched = true;
+                        PutSpriteOnTop();
                         world.ToMode(World.Mode.Play);
+                        
                     }
                     break;
                 #endregion
                 #region Ladder
                 case pState.Ladder:
+                    spriteCurrent = pSprite.Walk;
                     if (Input.keyDown(Input.Up)) {
                         Move(Dir.Up, mspdLadder);
                     } 
@@ -186,13 +200,18 @@ namespace CPGDGameJam.Game {
                         }
                     }
                     if (!touchingLadder) {
+                        if (velocity.Y < 0) {
+                            Jump(3f);
+                            velocity.X += 3f*(float)direction;
+                            //velocity.Y -=
+                        }
                         StateGoto(pState.Jump);
                     }
                     break;
                 #endregion
                 #region Launched
                 case pState.Launched:
-                    Movement(mspd / (float)1.2);
+                    Movement(mspd / 0.85f);
                     if (touchingGround) {
                         StateGoto(pState.Idle);
                     }
@@ -200,6 +219,7 @@ namespace CPGDGameJam.Game {
                 #endregion
                 #region PreDeath
                 case pState.PreDeath:
+                    Game1.PlaySound(Game1.sfx.land, 1f, 0f, world.noAudio);
                     Util.Log("(pre) Death." + world.blockInventoryPrev[0].ToString());
                     world.blockInventory = world.blockInventoryPrev;
                     ResetPlayer(World.Mode.Play);
@@ -232,6 +252,7 @@ namespace CPGDGameJam.Game {
             if (world.mode == World.Mode.Buy) {
                 BuyMenu();
             }
+            //FlipDirection();
 
             TouchingLevelTrigger();
             Gravity();
@@ -256,20 +277,39 @@ namespace CPGDGameJam.Game {
             if (!Input.keyDown(Input.Left) && !Input.keyDown(Input.Right)) {
                 StopMovingX();
             }
+
+            if (Input.keyPressed(Input.Right)) {
+                direction = Dir.Right;
+                sprite.Scale(new Vector2(1f, 1f));
+
+            }
+            if (Input.keyPressed(Input.Left)) {
+                direction = Dir.Left;
+                sprite.Scale(new Vector2(-1f, 1f));
+            } 
         }
 
 
         public void ResetPlayer(World.Mode toMode) {
             if (!modeSwitched) {
+
+                foreach (CrumblingBlock c in world.scene.OfType<CrumblingBlock>().ToArray()) {
+                    if (!world.placedData.Contains(c.initialPosition)) {
+                        Vector2 pos = c.initialPosition;
+                        c.Remove();
+                        world.scene.Add(new CrumblingBlock(Game1.sCrumblingBlock, pos, world));
+                    }
+                }
+
                 foreach (Block b in world.scene.OfType<Block>().ToArray()) {
-                    if (world.placedData.Contains(b.position)) {
+                    if (world.placedData.Contains(b.initialPosition)) {
                         b.Remove();
                     }
                 }
                 foreach (Gold g in world.scene.OfType<Gold>().ToArray()) {
-                    if (world.placedData.Contains(g.position)) {
+                    //if (world.placedData.Contains(g.position)) {
                         g.Remove();
-                    }
+                    //}
                 }
                 foreach (Ladder l in world.scene.OfType<Ladder>().ToArray()) {
                     if (world.placedData.Contains(l.position)) {
@@ -277,10 +317,16 @@ namespace CPGDGameJam.Game {
                     }
                 }
                 foreach (Spring s in world.scene.OfType<Spring>().ToArray()) {
-                    if (world.placedData.Contains(s.position)) {
+                    if (world.placedData.Contains(s.initialPosition)) {
                         s.Remove();
+                    } else {
+                        Vector2 pos = s.initialPosition;
+                        s.Remove();
+                        world.scene.Add(new Spring(Game1.sSpring, pos, world));
                     }
                 }
+
+              
                 foreach (Vector2 v in world.goldData) {
                     world.scene.Add(new Gold(Game1.sGold, world.animGold, v, world));
                 }

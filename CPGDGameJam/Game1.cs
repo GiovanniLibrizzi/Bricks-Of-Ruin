@@ -8,6 +8,8 @@ using CPGDGameJam.Game;
 using System.Diagnostics;
 using CPGDGameJam.Game.Entities;
 using Microsoft.Xna.Framework.Input.Touch;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace CPGDGameJam {
     public class Game1 : Microsoft.Xna.Framework.Game {
@@ -67,6 +69,14 @@ namespace CPGDGameJam {
         public static Texture2D sHudSelector;
         public static Texture2D sHudContainer;
         public static Texture2D sHudSlash;
+        public static Texture2D sEnterPlay;
+        public static Texture2D sEnterBuild;
+        Texture2D sTitleScreen;
+        public static Texture2D sLaser;
+        public static Texture2D sPlayerWalk;
+        public static Texture2D sPlayerJump;
+
+        bool noAudio = false;
 
         // Saved variables 
         public int goldAmt = 0;
@@ -77,13 +87,25 @@ namespace CPGDGameJam {
         int scaleInc = 0;
         List<AnimatedSprite> playerSpriteList;
 
+        public static List<SoundEffect> soundEffects;
+        public enum sfx {
+            coin,
+            jump,
+            land,
+            place,
+            spring,
+            menuClick,
+        }
+        Song song;
+
+
 
         //SpriteFont font1;
         public enum GameState {
             TitleScreen,
             InGame
         }
-        public GameState state = GameState.InGame;
+        public GameState state = GameState.TitleScreen;
 
 
         public Game1() {
@@ -109,6 +131,7 @@ namespace CPGDGameJam {
         }
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            Window.Title = "Bricks of Ruin";
 
             base.Initialize();
 
@@ -123,14 +146,13 @@ namespace CPGDGameJam {
                 camera = new Camera(new Vector2Int(int.MaxValue, int.MaxValue), player);
                 
             }
-
             graphics.PreferredBackBufferWidth = ScreenWidth;
             graphics.PreferredBackBufferHeight = ScreenHeight;
             graphics.ApplyChanges();
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // use this.Content to load your game content here
-            sPlayer = Content.Load<Texture2D>("sPlayer");
+            sPlayer = Content.Load<Texture2D>("s_player");
             sLadder = Content.Load<Texture2D>("s_ladder");
             sBlock = Content.Load<Texture2D>("s_block");
             sSpring = Content.Load<Texture2D>("s_spring");
@@ -151,13 +173,41 @@ namespace CPGDGameJam {
             sHudSelector = Content.Load<Texture2D>("s_hud_selector");
             sHudContainer = Content.Load <Texture2D>("s_hud_container");
             sHudSlash = Content.Load<Texture2D>("s_hud_slash");
+            sEnterPlay = Content.Load<Texture2D>("s_enterplay");
+            sEnterBuild = Content.Load<Texture2D>("s_enterbuild");
+            sTitleScreen = Content.Load<Texture2D>("s_titlescreen");
+            sLaser = Content.Load<Texture2D>("s_laser");
+            sPlayerWalk = Content.Load<Texture2D>("s_player_walk");
+            sPlayerJump = Content.Load<Texture2D>("s_player_jump");
 
 
 
             playerSpriteList = new List<AnimatedSprite> {
                 new AnimatedSprite(sPlayer, new Vector2Int(16, 16), 0),
-                new AnimatedSprite(sPlayer, new Vector2Int(16, 16), 1)
+                new AnimatedSprite(sPlayerWalk, new Vector2Int(16, 16), 5f),
+                new AnimatedSprite(sPlayerJump, new Vector2Int(16, 16), 10f),
             };
+
+            try {
+                soundEffects = new List<SoundEffect>() {
+                    Content.Load<SoundEffect>("sfx_coin"),
+                    Content.Load<SoundEffect>("sfx_land"),
+                    Content.Load<SoundEffect>("sfx_jump"),
+                    Content.Load<SoundEffect>("sfx_place"),
+                    Content.Load<SoundEffect>("sfx_spring"),
+                    Content.Load<SoundEffect>("sfx_menu_click"),
+                };
+           
+
+            song = Content.Load<Song>("cpgdjam");
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
+            } catch (Microsoft.Xna.Framework.Audio.NoAudioHardwareException) {
+                noAudio = true;
+            }
+
 
             //font1 = Content.Load<SpriteFont>("Font1");
 
@@ -177,6 +227,19 @@ namespace CPGDGameJam {
                 new NormalTile(tPlayer, new Vector2(190, 80), world)
             };*/
 
+        }
+
+        public static void PlaySound(sfx sound, float vol, float pitch, bool noAudio) {
+            if (!noAudio) { 
+            //try {
+                soundEffects[(int)sound].Play(vol, pitch, 0f);
+            } 
+                //}
+        }
+        void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e) {
+            // 0.0f is silent, 1.0f is full volume
+            //MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(song);
         }
 
         public void ScalePresentationArea() {
@@ -217,6 +280,7 @@ namespace CPGDGameJam {
             camera.approach.X = -player.position.X - (player.texture.Width / Camera.mod.X);
             camera.approach.Y = -player.position.Y - (player.texture.Height / Camera.mod.Y);
             world.camera = camera;
+            world.noAudio = noAudio;
 
             world.mode = World.Mode.Buy;
             //player.ResetPlayer(World.Mode.Buy);
@@ -228,10 +292,11 @@ namespace CPGDGameJam {
            // spriteBatch.Draw();
             switch (world.mode) {
                 case World.Mode.Buy:
-                    spriteBatch.Draw(textBuyMode, new Vector2(123f, 3f)+camera.getPosition(), null, Color.White);
+                    spriteBatch.Draw(textBuyMode, new Vector2(123, 3f)+camera.getPosition(), null, Color.White);
                     // Draw Gold
                     spriteBatch.Draw(sGold, new Vector2(64, 7) + camera.getPosition(), null, Color.White);
                     Sprite.DrawNumber(spriteBatch, sNumbers, goldAmt, new Vector2(74, 6), camera.getPosition(), Color.White);
+                    spriteBatch.Draw(sEnterPlay, new Vector2(253 - 19, 164) + world.camera.getPosition(), null, Color.White);
                     break;
                 case World.Mode.Play:
 
@@ -257,6 +322,7 @@ namespace CPGDGameJam {
                         Sprite.DrawNumber(spriteBatch, sNumbers, world.blockInventory[i], new Vector2(127 + (i*gap) - minus, 169), world.camera.getPosition(), Color.White);
 
                     }
+                    spriteBatch.Draw(sEnterBuild, new Vector2(253-19, 164) + world.camera.getPosition(), null, Color.White);
                     break;
             }
         }
@@ -266,73 +332,83 @@ namespace CPGDGameJam {
 
             Input.GetState();
             //Input.GetTouchState();
+            if (Input.keyPressed(Keys.F)) {
+                //if (graphics.IsFullScreen) {
+                //    Resolution(wres2, hres2, false);
+                //} else if (!graphics.IsFullScreen) {
+                //    graphics.HardwareModeSwitch = false;
+                //    Resolution(wScr, hScr, true);
+                //}
+                if (scaleInc < scale.Length - 1) {
+                    scaleInc++;
+                } else {
+                    scaleInc = 0;
+                }
+                int scaleCur = scale[scaleInc];
+                if (scaleCur > 0) {
+                    Resolution(SCREEN_WIDTH * scaleCur, SCREEN_HEIGHT * scaleCur, false);
+                } else {
+                    graphics.HardwareModeSwitch = false;
+                    Resolution(wScr, hScr, true);
+                }
+            }
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
-            switch (state) {
-                case GameState.TitleScreen:
+            if (state == GameState.TitleScreen) {
+                if (Input.keyPressed(Input.ModeSwap)) {
+
+                    ToLevel("level1.json");
                     
-                    break;
+                    state = GameState.InGame;
+                }
+            }
 
-                case GameState.InGame:
             
 
-                    if (camera != null)
-                        camera.Follow();
-        #if !ANDROID
-                    float framerate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Window.Title = "Game - " + System.String.Format("{0:0.00}", framerate) + " FPS";
+                if (camera != null)
+                    camera.Follow();
+    #if !ANDROID
+                float framerate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+                //Window.Title = "Game - " + System.String.Format("{0:0.00}", framerate) + " FPS";
 
-                    if (Input.keyPressed(Keys.F)) {
-                        //if (graphics.IsFullScreen) {
-                        //    Resolution(wres2, hres2, false);
-                        //} else if (!graphics.IsFullScreen) {
-                        //    graphics.HardwareModeSwitch = false;
-                        //    Resolution(wScr, hScr, true);
-                        //}
-                        if (scaleInc < scale.Length - 1) {
-                            scaleInc++;
-                        } else {
-                            scaleInc = 0;
-                        }
-                        int scaleCur = scale[scaleInc];
-                        if (scaleCur > 0) {
-                            Resolution(SCREEN_WIDTH * scaleCur, SCREEN_HEIGHT * scaleCur, false);
-                        } else {
-                            graphics.HardwareModeSwitch = false;
-                            Resolution(wScr, hScr, true);
-                        }
-                    }
+                    
 
-        #endif
-                    if (Input.keyPressed(Keys.F1)) {
-                        ToLevel("level1.json");
-                    }
-                    //if (Input.keyPressed(Keys.F4)) {
-                    //    ToLevel("level4.json");
-                    //}
-                    goldAmt = player.goldAmt;
+    #endif
+                //if (Input.keyPressed(Keys.F1)) {
+                //    ToLevel("level1.json");
+                //}
+                //if (Input.keyPressed(Keys.F2)) {
+                //    goldAmt = 30;
+                //    ToLevel("level10.json");
+                //}
+                //if (Input.keyPressed(Keys.F4)) {
+                //    ToLevel("level4.json");
+                //}
+                goldAmt = player.goldAmt;
 
-                    if (levelTransition) {
-                        ToLevel(levelFile);
-                        levelTransition = false;
-                    }
+                if (levelTransition) {
+                    ToLevel(levelFile);
+                    levelTransition = false;
+                }
 
 
 
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                        Exit();
+                   
 
 
-                    if (world != null) {
-                        foreach (Entity entity in world.scene.ToArray()) {
-                            entity.Update(gameTime);
-                            foreach (Component component in entity.components) {
-                                component.Update(gameTime);
-                            }
+                if (world != null) {
+                    foreach (Entity entity in world.scene.ToArray()) {
+                        entity.Update(gameTime);
+                        foreach (Component component in entity.components) {
+                            component.Update(gameTime);
                         }
                     }
-                    break;
+                }
+      
 
-            }
+            
 
             /*TransformSystem.Update(gameTime);
             SpriteSystem.Update(gameTime);*/
@@ -353,7 +429,9 @@ namespace CPGDGameJam {
 
             switch (state) {
                 case GameState.TitleScreen:
-
+                    spriteBatch.Draw(sBackground, camera.getPosition(), Color.White);
+                    spriteBatch.Draw(sTitleScreen, new Vector2(0, 0)+world.camera.getPosition(), null, Color.White);
+                    break;
 
                 case GameState.InGame:
                     // Background
