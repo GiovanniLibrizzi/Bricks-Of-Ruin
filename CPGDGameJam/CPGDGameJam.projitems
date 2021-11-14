@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\AnimatedSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\BaseSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\BuyMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Components\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Components\Sprite.cs" />
@@ -20,13 +21,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\MouseBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\Spring.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\LevelTrigger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\SolidNoTexture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\BackgroundTile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Collision.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Gold.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\CrumblingBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Actors\Gold.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Ladder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\NormalTile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\Block.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Entities\Solids\SolidTexture.cs" />

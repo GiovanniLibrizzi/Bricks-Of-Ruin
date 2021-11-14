@@ -8,6 +8,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
 using CPGDGameJam.Game.Entities.Solids;
+using CPGDGameJam.Game.Entities.Actors;
 
 namespace CPGDGameJam.Game {
     class MouseBlock : Actor {
@@ -28,13 +29,13 @@ namespace CPGDGameJam.Game {
             //if (world.mode == World.Mode.Build) {
             //Util.Log(Util.TileAt(world.player.position, world).ToString() + " ||| " + Util.TileAt(posInt, world).ToString());
             ///if (Util.TileAt(world.player.position, world).Equals(Util.TileAt(posInt, world))){// && world.backgroundData.Contains(Util.TileAt(posInt, world))) {
-            if (Util.InDistance(Util.Vector2toInt(world.player.position), posInt, range) && !world.placedData.Contains(posInt) && world.backgroundData.Contains(posInt) && !world.foregroundData.Contains(posInt) && world.mode != World.Mode.Buy) {
+            if (Util.InDistance(Util.Vector2toInt(world.player.position), posInt, range) && world.blockInventory[(int)world.blockCurrent] > 0 && !world.placedData.Contains(new Vector2(posInt.x, posInt.y)) && world.backgroundData.Contains(posInt) && !world.foregroundData.Contains(posInt) && world.mode != World.Mode.Buy) {
                 BlockPlacing();
                 sprite.color = Color.White;
             } else {
                 sprite.color = Color.Red;
             }
-            if (!world.backgroundData.Contains(posInt) || (world.backgroundData.Contains(posInt) && (world.foregroundData.Contains(posInt)) || world.placedData.Contains(posInt))) {
+            if (!world.backgroundData.Contains(posInt) || (world.backgroundData.Contains(posInt) && (world.foregroundData.Contains(posInt)) || world.placedData.Contains(new Vector2(posInt.x, posInt.y)))) {
                 sprite.texture = Game1.sOutlineX;
             } else {
                 sprite.texture = Game1.sOutline;
@@ -60,18 +61,38 @@ namespace CPGDGameJam.Game {
                     int mY = (int)(mouseTile.Y - (mouseTile.Y % Game1.GridSize)) / Game1.GridSize;
 
                     if ((t.position / Game1.GridSize) == new Vector2(mX, mY)) {
-                        Util.Log(a.ToString() + " " + mX.ToString());
+                        Util.Log("Click at: " + a.ToString() + " " + mX.ToString());
 
                         //world.scene.Add(new Block(Game1.sBlock, mouseTile, this.world));
                         //world.scene.Add(new Collision(mouseTile, new Vector2Int(16, 16), this.world));
-                        world.scene.Add(new Block(Game1.sBlock, mouseTile, this.world));
-                        world.placedData.Add(Util.Vector2toInt(mouseTile));
+
+                        switch (world.blockCurrent) {
+                            case World.BlockType.Block:
+                                world.scene.Add(new Block(Game1.sBlock, mouseTile, this.world));
+                                world.placedData.Add(mouseTile);
+                                break;
+                            case World.BlockType.CrumblingBlock:
+                                world.scene.Add(new CrumblingBlock(Game1.sCrumblingBlock, mouseTile, this.world));
+                                //world.scene.
+                                world.placedData.Add(mouseTile);
+                                break;
+                            case World.BlockType.Ladder:
+                                world.scene.Add(new Ladder(Game1.sLadder, mouseTile, this.world));
+                                world.placedData.Add(mouseTile);
+                                break;
+                            case World.BlockType.Spring:
+                                world.scene.Add(new Spring(Game1.sSpring, mouseTile, this.world));
+                                world.placedData.Add(mouseTile);
+                                break;
+                        }
+                        
                         //MouseBlock mb = this;
 
                         PutSpriteOnTop();
                     }
                 }
 
+                world.blockInventory[(int)world.blockCurrent]--;
 
             }
         }

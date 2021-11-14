@@ -10,7 +10,12 @@
   "levelDefaultSize": {"x": 320, "y": 240},
   "levelMinSize": {"x": 128, "y": 128},
   "levelMaxSize": {"x": 4096, "y": 4096},
-  "levelValues": [],
+  "levelValues": [
+    {"name": "blockLimitBlock", "definition": "Integer", "display": 0, "defaults": 0, "bounded": false, "min": 0, "max": 100},
+    {"name": "blockLimitCrumblingBlock", "definition": "Integer", "display": 0, "defaults": 0, "bounded": false, "min": 0, "max": 100},
+    {"name": "blockLimitLadder", "definition": "Integer", "display": 0, "defaults": 0, "bounded": false, "min": 0, "max": 100},
+    {"name": "blockLimitSpring", "definition": "Integer", "display": 0, "defaults": 0, "bounded": false, "min": 0, "max": 100}
+  ],
   "defaultExportMode": ".json",
   "compactExport": false,
   "externalScript": "",
@@ -173,7 +178,83 @@
       "tags": [],
       "values": [],
       "texture": "../Sprites/s_gold.png",
-      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAAFZJREFUCJl9jSEOgDAUxV4IkmvscrMchHtwFQweEvIdyRBTQH6yFMH0KitaqQV5ghTBAqTIL1MEoPhJyTNcI1iglyS9qzpf5M8hv00DW03VBBZgF83vB3j3OZtS0FDJAAAAAElFTkSuQmCC"
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAAGJJREFUCJl9jDsOQEAUAEeyGodQqp1D4mwOQ6tyAKIU2+k0xGdjfZ5iWzHlJDPwh0yZWB2J7UOZGwRAWR0JQYLvBXDUPGqgyQtRZulga7nmivscMcYA4AH0pcvX3a3j1PlPXuQeKH3g3+NAAAAAAElFTkSuQmCC"
+    },
+    {
+      "exportID": "85472877",
+      "name": "Ladder",
+      "limit": -1,
+      "size": {"x": 16, "y": 16},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 16, "y": 16},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": [],
+      "texture": "../Sprites/s_ladder.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAGFJREFUOI1j7PcN/8/AwMBQuHklIwMJAKaPhYGBgeHwsxdwAVLA4WcvIAZkmyuTpHHqybsMtlISDHAXTD15l2Hd2YMkecFWCuJiJpKsxgJYYAxywgBuwGgYjIYBA8MAhwEAvdA6pPZIIYkAAAAASUVORK5CYII="
+    },
+    {
+      "exportID": "86002670",
+      "name": "Spring",
+      "limit": -1,
+      "size": {"x": 16, "y": 16},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 16, "y": 16},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": [],
+      "values": [],
+      "texture": "../Sprites/s_spring.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMBJREFUOI1jYBgFo4CBgXGtvuv/oKh3DM/3sDFIuvxiYLDMY2A4PgnOR6aPv+JhsBT7wnD8FQ/cACZLsS8M65YJEdTMwMAA12wp9gXhAgYGBob/ncb/yXFB8MXdjIzoflq8/NB/BgYGBhtLNQYGBgaGI8dvMdhYqjEcOX4LriY20g6uD8WA+w9e/BeTJxxwrx4yMCgqSDBiGAAzhJABMM1wA1YHGhDUhA2Err/AyMLAwMBw6Tkzg57kXzgNEyMGAADrjlzVXG2q9QAAAABJRU5ErkJggg=="
     }
   ],
   "tilesets": [

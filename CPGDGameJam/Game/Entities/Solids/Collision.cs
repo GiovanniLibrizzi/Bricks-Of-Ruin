@@ -9,7 +9,8 @@ using System.Text;
 namespace CPGDGameJam.Game.Entities {
     class Collision : SolidNoTexture {
         Texture2D texture;
-        Sprite sprite;
+        Transform transform;
+        protected Sprite sprite;
         public Collision(Vector2 position, Vector2Int size, World world) : base(position, size, world) {
             
         }

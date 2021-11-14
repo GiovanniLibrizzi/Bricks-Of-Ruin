@@ -8,6 +8,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
 using CPGDGameJam.Game.Entities.Solids;
+using CPGDGameJam.Game.Entities.Actors;
 
 namespace CPGDGameJam.Game {
     class Player : Actor {
@@ -22,11 +23,11 @@ namespace CPGDGameJam.Game {
             Paused
         }
 
-        private int tick = 0;
+        public int tick = 0;
 
         public pState state;
         //private pState state = pState.Idle;
-        private pState statePrev;// = pState.Idle;
+        public pState statePrev;// = pState.Idle;
 
         private Vector2 startingPosition;
         private Dir startingDir;
@@ -34,7 +35,7 @@ namespace CPGDGameJam.Game {
 
         private const float mspdClimb = 0.8f;
         private const float mspdBonk = 1f;
-
+        private const float mspdLadder = 0.5f;
 
         private const float gravLadder = 0f, gravGlide = 0.03f, gravClimb = 0f, gravBonk = 0.3f;
         private float[] grav = { gravityDef, gravityDef, gravLadder, gravityDef, gravityDef, gravityDef, 0f };
@@ -45,8 +46,11 @@ namespace CPGDGameJam.Game {
         private Vector2Int mousePos;
         private Vector2Int mouseTilePos;
 
+        public int goldAmtPrevPrev = 0;
         public int goldAmtPrev = 0;
         public int goldAmt;
+
+        public bool modeSwitched = false;
 
         public enum pSprite {
             Idle,
@@ -66,7 +70,6 @@ namespace CPGDGameJam.Game {
         }
 
         public override void Update(GameTime gameTime) {
-
             // Initialize on runtime
             if (tick == 0) {
                 
@@ -74,25 +77,17 @@ namespace CPGDGameJam.Game {
                 sprite.Scale(new Vector2((float)direction, 1f));
                 startingPosition = position;
                 startingDir = direction;
+                world.ToMode(World.Mode.Buy);
+
 
                 //sWalking = new AnimatedSprite(texture, new Vector2Int(8, 8), 4);
             }
             sprite.spriteCurrent = (int)spriteCurrent;
-          
-            // RESET BUTTON
-            if (Input.keyPressed(Input.ModeSwap)) {
-                ResetPlayer(World.Mode.Buy);
-            }
-
-
-            // Check if out of bounds
-            if (position.Y > world.worldSize.y + 24) {
-                ResetPlayer(World.Mode.Play);
-            }
-
 
 
             gravity = grav[(int)state];
+
+            modeSwitched = false;
 
             // Check if touching gold
             Entity e = IsTouching(typeof(Gold));
@@ -108,7 +103,7 @@ namespace CPGDGameJam.Game {
                 case pState.Idle:
                     spriteCurrent = pSprite.Idle;
                     //Util.Log(Util.TileAt(position, world).ToString());
-                    Movement();
+                    Movement(mspd);
 
 
                     //BlockPlacing();
@@ -125,13 +120,12 @@ namespace CPGDGameJam.Game {
                     }
                     break;
                 #endregion
-
                 #region Jump
                 case pState.Jump:
                     //spriteCurrent
                     //if (touchingGround)
                     //    StopMoving(); // Horizontally
-                    Movement();
+                    Movement(mspd);
                     //BlockPlacing();
 
                     // Variable jump height
@@ -159,146 +153,85 @@ namespace CPGDGameJam.Game {
                     break;
 
                 #endregion
-
                 #region Paused/Build Mode
                 case pState.Paused:
-                    if (Input.keyPressed(Input.ModeSwap)) {
+                    if (Input.keyPressed(Input.ModeSwap) && !modeSwitched) {
+                        Util.Log("pressed");
+                        modeSwitched = true;
                         world.ToMode(World.Mode.Play);
                     }
                     break;
                 #endregion
-                    #region old
-                    //#region Jump
-                    //case pState.Jump:
-                    //    spriteCurrent = pSprite.Idle;
-                    //    if (touchingGround)
-                    //        StopMoving(); // Horizontally
+                #region Ladder
+                case pState.Ladder:
+                    if (Input.keyDown(Input.Up)) {
+                        Move(Dir.Up, mspdLadder);
+                    } 
+                    if (Input.keyDown(Input.Down)) {
+                        Move(Dir.Down, mspdLadder);
+                    } 
+                    if (!Input.keyDown(Input.Up) && !Input.keyDown(Input.Down)) {
+                        StopMovingY();
+                    }
+                    Movement(mspdLadder);
 
-                    //    // Variable jump height
-                    //    if (velocity.Y < 0) {
-                    //        if (!Input.keyPressed(Input.Jump)) {
-                    //            velocity.Y = Util.Lerp(velocity.Y, 0, 0.05f);
-                    //        }
-                    //        if (Input.keyReleased(Input.Jump)) {
-                    //            velocity.Y = Util.Lerp(velocity.Y, 0, 0.3f);
-                    //        }
-                    //    }
-
-                    //    //Transitions
-                    //    if (Input.keyPressed(Input.Jump) && !touchingGround) {
-                    //        velocity.Y = 0;
-                    //        StateGoto(pState.Glide);
-                    //    }
-
-                    //    if (touchingGround) {
-                    //        StateGoto(pState.Idle);
-                    //    }
-
-                    //    if (touchingClimbable) {
-                    //        //velocity.X = 0;
-                    //        velocity.Y = 0;
-                    //        //position.X += (int)direction*2;
-                    //        StateGoto(pState.WallClimb);
-                    //    }
-                    //    break;
-                    //#endregion
-                    //#region Glide
-                    //case pState.Glide:
-                    //    spriteCurrent = pSprite.Glide;
-                    //    //spriteList[(int)spriteCurrent].speed
-                    //    Move(direction, mspd);
-
-                    //    velocity.Y = Math.Max(velocity.Y, -0.1f);
-                    //    velocity.Y = Math.Min(velocity.Y, 0.95f);
-                    //    // Transitions
-                    //        // Bonk
-                    //    if (touchingWall && !touchingClimbable && Math.Abs(velocity.X) > 0f) {
-                    //        velocity.X = -(int)direction * mspdBonk;
-                    //        velocity.Y = -2f;
-                    //        FlipDirection();
-                    //        StateGoto(pState.Bonk);
-                    //    }
-
-                    //    if (touchingClimbable) {
-                    //        //velocity.X = 0;
-                    //        velocity.Y = 0;
-                    //        //position.X += (int)direction*2;
-                    //        StateGoto(pState.WallClimb);
-                    //    }
-
-                    //    if (touchingGround) {
-                    //        if (touchingWall && !touchingClimbable) {
-                    //            FlipDirection();
-                    //        }
-                    //        StateGoto(pState.Land);
-                    //    }
-
-                    //    //if (Input.keyPressed(Input.Jump) && !touchingGround) {
-                    //    //    StateGoto(pState.Glide);
-                    //    //}
-
-                    //    if (Input.keyPressed(Input.Jump)) {
-                    //        StateGoto(pState.Jump);
-                    //    }
-                    //    break;
-                    //#endregion
-                    //#region WallClimb
-                    //case pState.WallClimb:
-                    //    spriteCurrent = pSprite.Climb;
-                    //    velocity.X = (int)direction*3f;
-
-                    //    //if (Input.keyDown(Input.Up)) {
-                    //        Move(Dir.Up, mspdClimb/1.15f);
-                    //    //}
-                    //    //if (Input.keyDown(Input.Down)) {
-                    //    //    Move(Dir.Down, mspdClimb);
-                    //    //    //Util.Log("DOWN!");
-                    //    //}
-
-                    //    sprite.animatedSprite.speed = (int)(velocity.Y*8);
-
-                    //    // Transitions
-                    //    if (tick > 4 && !touchingClimbable) {
-                    //        //if (!touchingWall) {
-                    //        Launch((int)direction * 2f, -1f);
-                    //        //velocity.X = (int)direction * 1.5f;
-                    //        //velocity.Y = 2f;
-                    //        StateGoto(pState.Idle);
-                    //    }
-
-                    //    if (Input.keyPressed(Input.Jump)) {
-                    //        FlipDirection();
-                    //        velocity.X = 2 * (int)direction;
-                    //        Jump(jspd/1.5f);
-                    //        StateGoto(pState.Jump);
-                    //    }
-                    //    break;
-                    //#endregion
-                    //#region Land
-                    //case pState.Land:
-                    //    spriteCurrent = pSprite.Land;
-                    //    //velocity.X = Util.Lerp(velocity.X, 0, 0.1f);
-                    //    StopMoving();
-                    //    if (Math.Abs(velocity.X) < 0.1) {
-                    //        velocity.X = 0;
-                    //        StateGoto(pState.Idle);
-                    //    }
-                    //    if ((Input.keyPressed(Input.Jump)) && touchingGround) {
-                    //        Jump(jspd);
-                    //        StateGoto(pState.Jump);
-                    //    }
-                    //    break;
-                    //#endregion
-                    //#region Bonk
-                    //case pState.Bonk:
-                    //    if (touchingGround)
-                    //        StateGoto(pState.Idle);
-                    //    break;
-                    //#endregion
+                    if (Input.keyPressed(Input.Jump)) {
+                        Jump(jspd);
+                        StateGoto(pState.Jump);
+                    }
+                    bool touchingLadder = false;
+                    foreach (Ladder l in world.scene.OfType<Ladder>().ToArray()) {
+                        if (Actor.Colliding(l.position, l.sprite.texture.Bounds, position, collisionBox)) {
+                            touchingLadder = true;
+                        }
+                    }
+                    if (!touchingLadder) {
+                        StateGoto(pState.Jump);
+                    }
+                    break;
+                #endregion
+                #region Launched
+                case pState.Launched:
+                    Movement(mspd / (float)1.2);
+                    if (touchingGround) {
+                        StateGoto(pState.Idle);
+                    }
+                    break;
+                #endregion
+                #region PreDeath
+                case pState.PreDeath:
+                    Util.Log("(pre) Death." + world.blockInventoryPrev[0].ToString());
+                    world.blockInventory = world.blockInventoryPrev;
+                    ResetPlayer(World.Mode.Play);
+                    break;
                     #endregion
             }
             #endregion
 
+            // Select block in play mode
+            if (world.mode == World.Mode.Play) {
+                for (int i = 0; i < world.blockAmt; i++) {
+                    if (Input.keyPressed(Input.numKeys[i])) {
+                        world.blockCurrent = (World.BlockType)i;
+                    }
+                }
+            }
+
+            // RESET BUTTON
+            if (Input.keyPressed(Input.ModeSwap) && !modeSwitched) {
+                ResetPlayer(World.Mode.Buy);
+            }
+
+
+            // Check if out of bounds
+            if (position.Y > world.worldSize.y + 24) {
+                StateGoto(pState.PreDeath);
+                
+            }
+
+            if (world.mode == World.Mode.Buy) {
+                BuyMenu();
+            }
 
             TouchingLevelTrigger();
             Gravity();
@@ -312,7 +245,7 @@ namespace CPGDGameJam.Game {
             tick += 1;
         }
 
-        private void Movement() {
+        private void Movement(float mspd) {
             if (Input.keyDown(Input.Right)) {
                 Move(Dir.Right, mspd);
             }
@@ -321,30 +254,56 @@ namespace CPGDGameJam.Game {
             }
 
             if (!Input.keyDown(Input.Left) && !Input.keyDown(Input.Right)) {
-                StopMoving();
+                StopMovingX();
             }
         }
 
 
         public void ResetPlayer(World.Mode toMode) {
-            foreach (Block b in world.scene.OfType<Block>().ToArray()) {
-                b.Remove();
-            }
-            foreach (Gold g in world.scene.OfType<Gold>().ToArray()) {
-                g.Remove();
-            }
-            foreach (Vector2 v in world.goldData) {
-                world.scene.Add(new Gold(Game1.sGold, v, world));
-            }
-            world.placedData.Clear();
-           
-            goldAmt = goldAmtPrev;
-            position = startingPosition;
-            direction = startingDir;
-            velocity = new Vector2(0, 0);
-            tick = 0;
-            world.ToMode(toMode);
+            if (!modeSwitched) {
+                foreach (Block b in world.scene.OfType<Block>().ToArray()) {
+                    if (world.placedData.Contains(b.position)) {
+                        b.Remove();
+                    }
+                }
+                foreach (Gold g in world.scene.OfType<Gold>().ToArray()) {
+                    if (world.placedData.Contains(g.position)) {
+                        g.Remove();
+                    }
+                }
+                foreach (Ladder l in world.scene.OfType<Ladder>().ToArray()) {
+                    if (world.placedData.Contains(l.position)) {
+                        l.Remove();
+                    }
+                }
+                foreach (Spring s in world.scene.OfType<Spring>().ToArray()) {
+                    if (world.placedData.Contains(s.position)) {
+                        s.Remove();
+                    }
+                }
+                foreach (Vector2 v in world.goldData) {
+                    world.scene.Add(new Gold(Game1.sGold, world.animGold, v, world));
+                }
+                world.placedData.Clear();
 
+
+                StateGoto(pState.Idle);
+
+                goldAmt = goldAmtPrev;
+                position = startingPosition;
+                direction = startingDir;
+                velocity = new Vector2(0, 0);
+                tick = 0;
+                modeSwitched = true;
+                world.ToMode(toMode);
+            }
+
+        }
+
+        private void BuyMenu() {
+            if (Input.keyPressed(Input.One)) {
+
+            }
         }
 
 
@@ -366,7 +325,7 @@ namespace CPGDGameJam.Game {
             velocity.Y = v;
         }
 
-        private void StateGoto(pState newState) {
+        public void StateGoto(pState newState) {
             tick = 0;
             statePrev = state;
             state = newState;

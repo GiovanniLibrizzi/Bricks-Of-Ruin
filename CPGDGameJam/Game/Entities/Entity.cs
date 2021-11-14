@@ -18,6 +18,10 @@ namespace CPGDGameJam.Game {
             component.entity = this;
         }
 
+        public void RemoveComponent(Component component) {
+            components.Remove(component);
+        }
+
         public virtual void Update(GameTime gameTime) { }
 
 

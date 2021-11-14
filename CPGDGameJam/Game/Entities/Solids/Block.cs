@@ -9,6 +9,6 @@ namespace CPGDGameJam.Game.Entities.Solids {
         public Block(Texture2D texture, Vector2 position, World world) : base(texture, position, world) {
             
         }
-
+        
     }
 }

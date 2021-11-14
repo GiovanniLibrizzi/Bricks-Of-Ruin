@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using CPGDGameJam.Game.Entities;
 using CPGDGameJam.Game.Entities.Solids;
+using CPGDGameJam.Game.Entities.Actors;
 //using Android.Content.Res;
 
 namespace CPGDGameJam.Game {
@@ -23,10 +24,13 @@ namespace CPGDGameJam.Game {
 
         public Mode mode = Mode.Buy;
 
+        public int tick = 0;
+
         public Player player;
         public Camera camera;
         public Actor mouseBlock;
-        
+        public BuyMenu buyMenu;
+
 
         private string levelFile;
 
@@ -36,10 +40,10 @@ namespace CPGDGameJam.Game {
         private Vector2Int tileSize, worldGridSize, tilesetSize;
         private Vector2Int tileSizeBkg, worldGridSizeBkg, tilesetSizeBkg;
 
-        public List<Vector2Int> foregroundData = new List<Vector2Int>(); 
+        public List<Vector2Int> foregroundData = new List<Vector2Int>();
         public List<Vector2Int> backgroundData = new List<Vector2Int>();
         public List<Vector2> goldData = new List<Vector2>();
-        public List<Vector2Int> placedData = new List<Vector2Int>();
+        public List<Vector2> placedData = new List<Vector2>();
 
 
         public List<int> worldData = new List<int>();
@@ -54,17 +58,41 @@ namespace CPGDGameJam.Game {
         private Actor.Dir dir;
 
         public ContentManager content;
+        public AnimatedSprite animGold;
+        Texture2D sGoldAnim;
 
-        enum Layer {  
+        enum Layer {
             Tiles,
             TilesBkg,
             Entities,
             Gold,
         }
 
+        // Block Info
+        public enum BlockType {
+            Block,
+            CrumblingBlock,
+            Ladder,
+            Spring,
+        }
+        public List<Texture2D> blockHudSprites = new List<Texture2D>() { Game1.sHudBlock, Game1.sHudCrumblingBlock, Game1.sHudLadder, Game1.sHudSpring };
+
+        public int blockAmt = 4;
+        public List<int> blockPrice = new List<int>() { 2, 1, 4, 8 };
+        public List<int> blockInventory = new List<int>() { 0, 0, 0, 0 };
+        public List<int> blockInventoryPrev = new List<int>() { 0, 0, 0, 0 };
+        public List<int> blockLimit = new List<int>() { 1, 0, 0, 0 };
+
+        public BlockType blockCurrent = BlockType.Block;
+
         public World (string levelFile, ContentManager content) {
             this.levelFile = levelFile;
             this.content = content;
+
+
+            // Load
+            sGoldAnim = content.Load<Texture2D>("s_gold_anim");
+            animGold = new AnimatedSprite(Game1.sGoldAnim, new Vector2Int(8, 8), 10f);
 
 
             loadFromJson();
@@ -79,6 +107,9 @@ namespace CPGDGameJam.Game {
             addCollision();
             addBkg();
 
+            tick = 0;
+
+
         }
 
         public void Add(Player player) {
@@ -89,9 +120,9 @@ namespace CPGDGameJam.Game {
         }
         public void Add(Actor actor) {
             scene.Add(actor);
-            //actor.position.X = playerSpawn.x;
-            //player.position.Y = playerSpawn.y;
-            //player.direction = dir;
+        }
+        public void Add(Entity entity) {
+            scene.Add(entity);
         }
 
         private void loadFromJson() {
@@ -107,6 +138,11 @@ namespace CPGDGameJam.Game {
                 // Get World Size
                 worldSize.x = array.width;
                 worldSize.y = array.height;
+
+                blockLimit[0] = array.values.blockLimitBlock;
+                blockLimit[1] = array.values.blockLimitCrumblingBlock;
+                blockLimit[2] = array.values.blockLimitLadder;
+                blockLimit[3] = array.values.blockLimitSpring;
 
                 // -- -- Tile Layer
                 dynamic layers = array.layers[(int)Layer.Tiles];
@@ -158,6 +194,12 @@ namespace CPGDGameJam.Game {
                             Util.Log(playerSpawn.x.ToString() + "|" + playerSpawn.y.ToString());
                             dir = (Actor.Dir)entity.values.direction;
                             break;
+                        case "Ladder":
+                            scene.Add(new Ladder(Game1.sLadder, new Vector2((float)entity.x, (float)entity.y), this));
+                            break;
+                        case "Spring":
+                            scene.Add(new Spring(Game1.sSpring, new Vector2((float)entity.x, (float)entity.y), this));
+                            break;
                         default: break;
                     }
 
@@ -170,7 +212,7 @@ namespace CPGDGameJam.Game {
                         case "Gold":
                             Vector2 pos = new Vector2((float)entity.x, (float)entity.y);
                             goldData.Add(pos);
-                            scene.Add(new Gold(Game1.sGold, pos, this));
+                            scene.Add(new Gold(Game1.sGold, animGold, pos, this));
                             break;
                         default: break;
                     }
@@ -182,9 +224,10 @@ namespace CPGDGameJam.Game {
 
 
         }
-
+        
 
         public void drawLevel(SpriteBatch spriteBatch, List<int> worldData, Texture2D tileset) {
+            
             for (int i = 0; i < worldData.Count; i++) {
                 int tileID = worldData[i];
 
@@ -266,17 +309,34 @@ namespace CPGDGameJam.Game {
 
 
         public void ToMode(Mode mode) {
+            Mode fromMode = this.mode;
+            Util.Log(mode.ToString());
             switch (mode) {
                 case Mode.Play:
+                    if (fromMode == Mode.Buy) {
+                        Util.Log("from buy");
+                        player.goldAmtPrev = player.goldAmt;
+                        blockInventoryPrev = new List<int>(blockInventory);
+                        //blockInventoryPrev = blockInventory;
+                    } else {
+                        Util.Log("from play");
+                        Util.Log("inv: " + blockInventoryPrev[0].ToString());
+                        blockInventory = new List<int>(blockInventoryPrev);
+                    }
                     player.state = Player.pState.Idle;
                     camera.target = player;
                     break;
                 case Mode.Buy:
+                    if (player.modeSwitched) {
+                        player.goldAmt = player.goldAmtPrevPrev;
+                    }
+                    blockInventory = new List<int>() { 0, 0, 0, 0 };
                     player.state = Player.pState.Paused;
                     camera.target = mouseBlock;
                     break;
             }
             this.mode = mode;
+            
         }
     }
 }

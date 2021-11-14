@@ -18,6 +18,13 @@ namespace CPGDGameJam.Game {
         public static Btn Right = new Btn(Keys.D, Keys.Right, Buttons.LeftThumbstickRight, Buttons.DPadRight);
         public static Btn Jump = new Btn(Keys.K, Keys.Space, Buttons.A);
         public static Btn ModeSwap = new Btn(Keys.M, Keys.Enter, Keys.R);
+        public static Btn One = new Btn(Keys.D1);
+        public static Btn Two = new Btn(Keys.D2);
+        public static Btn Three = new Btn(Keys.D3);
+        public static Btn Four = new Btn(Keys.D4);
+
+        public static List<Btn> numKeys = new List<Btn>() { One, Two, Three, Four };
+
 
         static KeyboardState currentKeyState;
         static KeyboardState previousKeyState;

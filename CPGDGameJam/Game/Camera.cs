@@ -11,7 +11,7 @@ namespace CPGDGameJam.Game {
 
         public static Vector2 pos1;
 
-        public static Vector2Int mod = new Vector2Int(2, 3);
+        public static Vector2 mod = new Vector2(2, 2.5f);
 
         public Matrix Transform;
         public Vector2 approach = new Vector2(0, 0);
@@ -21,7 +21,7 @@ namespace CPGDGameJam.Game {
         private float speedSlow = 0.01f;
 
 
-        private Vector2 minRange = new Vector2((-Game1.SCREEN_WIDTH / mod.x), -Game1.SCREEN_HEIGHT / mod.y);
+        private Vector2 minRange = new Vector2((-Game1.SCREEN_WIDTH / mod.X), -Game1.SCREEN_HEIGHT / mod.Y);
         public Actor target;
        
         public Camera(Vector2Int worldSize, Actor target) {
@@ -37,20 +37,20 @@ namespace CPGDGameJam.Game {
             // Camera moves vertically iff player on ground or wall
             if (target == null) return;
             if (target.GetType() == typeof(MouseBlock)) {
-                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.x), speedSlow);
-                approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedSlow);
+                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.X), speedSlow);
+                approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedSlow);
             }
             if (target.GetType() == typeof(Player)) {
                 Player p = (Player)target;
                 if (p.touchingGround || p.state == Player.pState.Ladder) {
                     mainCam = true;
                     if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT) + 128) {
-                        approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedMid);
+                        approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedMid);
                     } else {
-                        approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), speedMid);
+                        approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), speedMid);
                     }
                 } else { mainCam = false; }
-                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.x), speed);
+                approach.X = Util.Lerp(approach.X, -target.position.X - (target.texture.Width / mod.X), speed);
             }
 
             // If player is too low or high, speed camera up
@@ -64,7 +64,7 @@ namespace CPGDGameJam.Game {
                     spd = 0f;
                 }
                 if (spd != 0)
-                    approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.y), spd);
+                    approach.Y = Util.Lerp(approach.Y, -target.position.Y - (target.texture.Height / mod.Y), spd);
             }
             //if (target.position.Y < (-approach.Y - Game1.SCREEN_HEIGHT)+128)
 
@@ -85,8 +85,8 @@ namespace CPGDGameJam.Game {
               0);
 
             var offset = Matrix.CreateTranslation(
-                Game1.SCREEN_WIDTH / mod.x,
-                Game1.SCREEN_HEIGHT - Game1.SCREEN_HEIGHT / mod.y,
+                Game1.SCREEN_WIDTH / mod.X,
+                Game1.SCREEN_HEIGHT - Game1.SCREEN_HEIGHT / mod.Y,
                 0);
 
             pos1.X = position.M41;
@@ -94,14 +94,14 @@ namespace CPGDGameJam.Game {
 
             Transform = position * offset;
         }
-        public Vector2Int getMod() {
+        public Vector2 getMod() {
             return mod;
         }
 
         public Vector2 getPosition() {
             Vector2 pos;
-            pos.X = (Math.Abs(approach.X) - Game1.SCREEN_WIDTH) + (Game1.SCREEN_WIDTH / mod.x);
-            pos.Y = (Math.Abs(approach.Y) - Game1.SCREEN_HEIGHT) + (Game1.SCREEN_HEIGHT / mod.y);
+            pos.X = (Math.Abs(approach.X) - Game1.SCREEN_WIDTH) + (Game1.SCREEN_WIDTH / mod.X);
+            pos.Y = (Math.Abs(approach.Y) - Game1.SCREEN_HEIGHT) + (Game1.SCREEN_HEIGHT / mod.Y);
             return pos;
         }
     }

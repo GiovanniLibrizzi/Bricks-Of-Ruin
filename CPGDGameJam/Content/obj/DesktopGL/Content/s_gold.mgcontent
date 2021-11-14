@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/../../Assets/Sprites/s_gold.png</SourceFile>
-  <SourceTime>2021-11-11T23:23:12.9833418-08:00</SourceTime>
+  <SourceTime>2021-11-13T21:23:01.9461626-08:00</SourceTime>
   <DestFile>C:/Users/porta/Programming/MonoGame/CPGDGameJam/CPGDGameJam/Content/bin/DesktopGL/Content/s_gold.xnb</DestFile>
-  <DestTime>2021-11-11T23:31:40.7481694-08:00</DestTime>
+  <DestTime>2021-11-13T21:23:40.4474695-08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T09:17:54-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -23,7 +23,7 @@ namespace CPGDGameJam.Game.Entities {
         protected float mspd { get; set; }
         protected float jspd;
         protected float gravity = 0.15f;
-        protected const float gravityDef = 0.15f;
+        public static float gravityDef = 0.15f;
 
         public bool touchingGround;
         protected bool touchingWall;
@@ -90,6 +90,7 @@ namespace CPGDGameJam.Game.Entities {
             touchingClimbable = false;
 
             foreach (Collision s in world.scene.OfType<Collision>()) {
+            //foreach (CrumblingBlock s in world.scene.OfType<CrumblingBlock>().ToArray()) { 
                 if ((velocity.X > 0 && IsTouching(s, Dir.Left)) || (velocity.X < 0 && IsTouching(s, Dir.Right))) {
                     velocity.X = 0;
                     position.X = (float)Math.Floor(position.X);
@@ -116,6 +117,7 @@ namespace CPGDGameJam.Game.Entities {
 
 
 
+
         // Moves actor the direction specified
         protected void Move (Dir move, float mspd) {
             switch (move) {
@@ -123,8 +125,8 @@ namespace CPGDGameJam.Game.Entities {
                 case Dir.Left: MoveLeft(mspd); break;
                 case Dir.Up: MoveUp(mspd); break;
                 case Dir.Down: MoveDown(mspd); break;
-                case Dir.Stop: StopMoving(); break;
-                default: StopMoving(); break;
+                case Dir.Stop: StopMovingX(); break;
+                default: StopMovingX(); break;
             }
         }
         private void MoveRight(float mspd) {
@@ -147,10 +149,16 @@ namespace CPGDGameJam.Game.Entities {
             else velocity.Y = mspd;
         }
 
-        protected void StopMoving() {
+        protected void StopMovingX() {
             if (velocity.X >= friction) velocity.X -= friction;
             else if (velocity.X <= -friction) velocity.X += friction;
             else if (velocity.X > -friction && velocity.X < friction) velocity.X = 0;
+        }
+
+        protected void StopMovingY() {
+            if (velocity.Y >= friction) velocity.Y -= friction;
+            else if (velocity.Y <= -friction) velocity.Y += friction;
+            else if (velocity.Y > -friction && velocity.Y < friction) velocity.Y = 0;
         }
 
         protected void Jump(float jspd) {
@@ -202,14 +210,71 @@ namespace CPGDGameJam.Game.Entities {
 
             }
         }
+        public static bool IsTouchingPlayer(Entity you, Player player, Dir dir) {
+            //Rectangle entRect;
+            Sprite sprite = you.GetComponent<Sprite>();
+
+            Vector2 position = player.position;
+            Rectangle myRect = player.collisionBox;
+            Vector2 velocity = player.velocity;
+
+            // Sprite yourSprite = you.GetComponent<Sprite>();
+            Rectangle entRect;// = yourSprite.texture.Bounds; //you.GetComponent<Sprite>(); ;//texture.Bounds;
+            //Vector2 entPos = entity.GetComponent<Transform>().position;
+            Vector2 entPos = you.GetComponent<Transform>().position;
+
+            if (you.HasComponent<Sprite>()) {
+                entRect = sprite.texture.Bounds;
+
+            } else {
+
+                SolidNoTexture s = (SolidNoTexture)you;
+                entRect = new Rectangle(0, 0, s.rectangle.Width, s.rectangle.Height);
+            }
+
+            switch (dir) {
+                case Dir.Left:
+                    return position.X + myRect.Right + velocity.X > entPos.X + entRect.Left &&
+                       position.X + myRect.Left < entPos.X + entRect.Left &&
+                       position.Y + myRect.Bottom > entPos.Y + entRect.Top &&
+                       position.Y + myRect.Top + 1 < entPos.Y + entRect.Bottom;
+                case Dir.Right:
+                    return position.X + (myRect.Left) + velocity.X < entPos.X + entRect.Right &&
+                       position.X + myRect.Right > entPos.X + entRect.Right &&
+                       position.Y + myRect.Bottom > entPos.Y + entRect.Top &&
+                       position.Y + myRect.Top + 1 < entPos.Y + entRect.Bottom;
+
+                case Dir.Top:
+                    return position.Y + myRect.Bottom + velocity.Y > entPos.Y + entRect.Top &&
+                        position.Y + myRect.Top + 1 < entPos.Y + entRect.Top &&
+                        position.X + myRect.Right > entPos.X + entRect.Left &&
+                        position.X + myRect.Left < entPos.X + entRect.Right;
+                case Dir.Bottom:
+                    Util.Log(position.Y.ToString() + " | " + entPos.Y.ToString());
+                    return position.Y + (myRect.Top + 1) + velocity.Y < entPos.Y + (entRect.Bottom - 1) &&
+                        position.Y + myRect.Bottom > entPos.Y + entRect.Bottom &&
+                        position.X + myRect.Right > entPos.X + entRect.Left &&
+                        position.X + myRect.Left < entPos.X + entRect.Right;
+
+                default: return false;
+
+            }
+
+            
+        }
         protected Entity IsTouching(Type entity) {
             //entity.GetType();
             Vector2 posA = position;
             Rectangle boxA = collisionBox;
             foreach (Entity e in world.scene.OfType<Entity>().ToArray()) {
+                
                 if (entity.Equals(e.GetType())) {
                     Vector2 posB = e.GetComponent<Transform>().position;
                     Rectangle boxB = e.GetComponent<Sprite>().texture.Bounds;
+                    if (e.GetType() == typeof(Gold)) {
+                        Gold a = (Gold)e;
+                        boxB = a.collisionBox;
+                    }
                     if (posA.X + boxA.Left < posB.X + boxB.Right &&
                            posA.X + boxA.Right > posB.X + boxB.Left &&
                            posA.Y + boxA.Top < posB.Y + boxB.Bottom &&
@@ -221,10 +286,16 @@ namespace CPGDGameJam.Game.Entities {
             return null;
         }
         public static bool Colliding(Vector2 posA, Rectangle boxA, Vector2 posB, Rectangle boxB) {
-            return posA.X + boxA.Left < posB.X + boxB.Right &&
-                    posA.X + boxA.Right > posB.X + boxB.Left &&
-                    posA.Y + boxA.Top < posB.Y + boxB.Bottom &&
-                    posA.Y + boxA.Bottom > posB.Y + boxB.Top;
+            return (posA.X < posB.X + boxB.Width &&
+                    posA.X + boxA.Width > posB.X &&
+                    posA.Y < posB.Y + boxB.Height &&
+                    posA.Y + boxA.Height > posB.Y);
+
+
+            //return posA.X + boxA.Left < posB.X + boxB.Right &&
+            //        posA.X + boxA.Right > posB.X + boxB.Left &&
+            //        posA.Y + boxA.Top < posB.Y + boxB.Bottom &&
+            //        posA.Y + boxA.Bottom > posB.Y + boxB.Top;
         }
 
         protected void FlipDirection() {
