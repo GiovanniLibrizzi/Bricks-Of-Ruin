@@ -63,6 +63,64 @@
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
+      },
+      "nulastudio.NetCoreBeauty/1.2.9.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "build": {
+          "build/netstandard2.0/nulastudio.NetCoreBeauty.targets": {}
+        }
+      }
+    },
+    ".NETCoreApp,Version=v3.1/osx-x64": {
+      "MonoGame.Content.Builder.Task/3.8.0.1641": {
+        "type": "package",
+        "build": {
+          "build/MonoGame.Content.Builder.Task.props": {},
+          "build/MonoGame.Content.Builder.Task.targets": {}
+        }
+      },
+      "MonoGame.Framework.DesktopGL/3.8.0.1641": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/MonoGame.Framework.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MonoGame.Framework.dll": {}
+        },
+        "native": {
+          "runtimes/osx/native/libSDL2-2.0.0.dylib": {},
+          "runtimes/osx/native/libopenal.1.dylib": {}
+        },
+        "build": {
+          "build/MonoGame.Framework.DesktopGL.targets": {}
+        }
+      },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "nulastudio.NetCoreBeauty/1.2.9.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "build": {
+          "build/netstandard2.0/nulastudio.NetCoreBeauty.targets": {}
+        }
       }
     }
   },
@@ -201,13 +259,33 @@
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
+    },
+    "nulastudio.NetCoreBeauty/1.2.9.3": {
+      "sha512": "ToUOoX/sNCg6oeMcSrHYBBRPjKp1gDS7I5WNnY+59t7iNFPcAojpc2lYmgCm3hxwXW/xCxyQIV4k5agegqc3fg==",
+      "type": "package",
+      "path": "nulastudio.netcorebeauty/1.2.9.3",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/netstandard2.0/nulastudio.NetCoreBeauty.targets",
+        "lib/netstandard2.0/_._",
+        "nulastudio.netcorebeauty.1.2.9.3.nupkg.sha512",
+        "nulastudio.netcorebeauty.nuspec",
+        "targets/Beauty.targets",
+        "tools/linux-x64/ncbeauty",
+        "tools/osx-x64/ncbeauty",
+        "tools/win-x64/ncbeauty.exe",
+        "tools/win-x86/ncbeauty.exe"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "MonoGame.Content.Builder.Task >= 3.8.0.1641",
       "MonoGame.Framework.DesktopGL >= 3.8.0.1641",
-      "Newtonsoft.Json >= 13.0.1"
+      "Newtonsoft.Json >= 13.0.1",
+      "nulastudio.NetCoreBeauty >= 1.2.9.3"
     ]
   },
   "packageFolders": {
@@ -265,6 +343,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"
+          },
+          "nulastudio.NetCoreBeauty": {
+            "target": "Package",
+            "version": "[1.2.9.3, )"
           }
         },
         "imports": [
@@ -277,12 +359,31 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
+            "version": "[3.1.19, 3.1.19]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-x64",
+            "version": "[3.1.19, 3.1.19]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.osx-x64",
+            "version": "[3.1.19, 3.1.19]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "osx-x64": {
+        "#import": []
       }
     }
   }

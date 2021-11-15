@@ -1,0 +1,5 @@
+bin/
+obj/
+.vs/
+CPGDGameJam.DesktopGL/bin/
+CPGDGameJam.DesktopGL/obj/
